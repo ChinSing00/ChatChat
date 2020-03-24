@@ -5,22 +5,15 @@ QMainWindow{
             border-top-right-radius:5px;
             }
 
-QToolBar {
-    background-color: #03A9F4;
-}
-
 QDialog, QFileDialog {
     background-color: #03A9F4;
 }
-
 QTabWidget::pane { /* The tab widget frame */
     /*border-top: 2px solid #C2C7CB;*/
 }
-
 QTabWidget::tab-bar {
     left: 0px; /* move to the right by 5px */
 }
-
 QTabBar, QTabWidget {
     background-color: #03A9F4;
 }
@@ -29,7 +22,7 @@ QTabBar::tab {
                                  stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
                                  stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
      /*border: 1px solid darkkhaki;*/
-     border-bottom-color: #C2C7CB; /* same as the pane color */
+     /*border-bottom-color: #C2C7CB; /* same as the pane color */
      border-top-left-radius: 1px;
      border-top-right-radius: 1px;
      min-width: 14ex;
@@ -55,21 +48,6 @@ QLineEdit[echoMode="2"] {
     lineedit-password-character: 9679;
 }
 
-QHeaderView::section {
-     background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                                       stop:0 #616161, stop: 0.5 #505050,
-                                       stop: 0.6 #434343, stop:1 #656565);
-     color: white;
-     padding-left: 4px;
-     border: 1px solid #6c6c6c;
- }
-
- QHeaderView::section:checked
- {
-     background-color: red;
- }
-
-
 /* We provide a min-width and min-height for push buttons
    so that they look elegant regardless of the width of the text. */
 QPushButton {
@@ -82,15 +60,45 @@ QPushButton {
     min-width: 9ex;
     min-height: 2.5ex;
 }
-QPushButton#close_btn,QPushButton#minimum_btn {
-    background-color: #6A34B7;
+/*已修改——Start*/
+QToolButton#avatar{
+    border:groove gray;
+    border-width: 1px;
+    border-style: solid;
+    border-radius:26px;
+    margin:5px;
+    background-image:"src/icon/用户.svg";
+}
+QToolBox::tab{
+    border:0px 0px 0px 1px;
+    background-color:#03A9F4;
+    }
+QToolBox::tab:hover{
+    background-color:#F0FF00;
+    opacity:0.5;
+    }
+
+QGroupBox#top_btn_gb QPushButton {
+    background-color: #03A9F4;
     border-width: 0px;
     border-style: solid;
-    border-radius: 2;
-    /*padding: 3px;*/
+    border-radius: 0px;
     min-width: 9ex;
-    min-height: 2.5ex;
+    min-height: 2ex;
+}F
+
+QGroupBox#top_btn_gb QPushButton:hover{
+    background-color:#FF9800;
+    opacity:0.1;
 }
+QGroupBox#top_btn_gb QPushButton:pressed {
+    padding-left: 3px;
+    padding-top: 3px;
+    background-color: #d0d67c;
+    opacity:0.1;
+}
+/*已修改——end*/
+
 QPushButton:hover {
    background-color: khaki;
 }
@@ -141,19 +149,20 @@ QListView::item:hover {
 /* We reserve 1 pixel space in padding. When we get the focus,
    we kill the padding and enlarge the border. This makes the items
    glow. */
+   /*
 QLineEdit, QFrame {
     border-width: 0px;
     padding: 0px;
     /*border-style: solid;*/
     /*border-color: darkkhaki;*/
-    border-radius: 5px;
+   /* border-radius: 5px;
 }
-
-/* As mentioned above, eliminate the padding and increase the border. */
+*/
+/* As mentioned above, eliminate thFe padding and increase the border.
 QLineEdit:focus, QFrame:focus {
     border-width: 3px;
     padding: 0px;
-}
+} */
 
 /* A QLabel is a QFrame  */
 QLabel {
@@ -161,21 +170,12 @@ QLabel {
     padding: 0;
     background: none;
 }
-
-/* A QToolTip is a QLabel  */
-QToolTip {
-    border: 2px solid darkkhaki;
-    padding: 5px;
-    border-radius: 3px;
-    opacity: 200;
-}
-
 /* Nice to have the background color change when hovered. */
 QRadioButton:hover, QCheckBox:hover {
     background-color: wheat;
 }
 
-/* Force the dialog's buttons to follow the Windows guidelines. */
+/* Force the dialog's buttons to follow the Windows guidelines.
 QDialogButtonBox {
     button-layout: 0;
-}
+}*/
