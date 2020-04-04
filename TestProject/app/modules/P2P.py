@@ -1,57 +1,67 @@
 import asyncio
+from functools import partial
+
 import aioxmpp
-from utils import Log
+from utils import Log, TimeUtils
 from app.view.PersonalChat import PersonalChatWin
 
 class Chat():
 
     def __init__(self):
         self._client = None
-        self.chatList = {}
+        self.conversationList = {}
 
     async def setup(self,core):
         self._client = core.client
         Log.info("单人聊天模块", "已加载")
-        # 接收消息
-        mDispatcher = self._client.summon(aioxmpp.dispatcher.SimpleMessageDispatcher)  # 生成消息调度器
-        mDispatcher.register_callback(aioxmpp.MessageType.CHAT, None, self.message_receiver)  # 注册消息回调
-        server = self._client.summon(aioxmpp.im.p2p.Service)
-        server.on_conversation_new.connect(self.on_conversation_new)
+        #P2P单聊消息
+        p2p_server = self._client.summon(aioxmpp.im.p2p.Service)
+        p2p_server.on_conversation_new.connect(self.on_conversation_new)
+        #p2p_server.on_conversation_added.connect(self.on_conversation_added)
         await asyncio.ensure_future(self._run())
 
     async def _run(self):
         while True:
            await asyncio.sleep(1)
 
-    def message_receiver(self,msg):
-        pass
-
-    async def message_sender(self,s):
-        Log.info("信息发送",str(s))
-        msg = aioxmpp.Message(to=aioxmpp.JID.fromstr(s['JID']),type_=aioxmpp.MessageType.CHAT)
-        msg.body = s['msg']
-        await self._client.send(msg)
-
     def on_conversation_new(self,conversation):
-        print(conversation)
-        conversation.on_message.connect(self.oott)
-        conversation
+        conversation.on_message.connect(partial(self.on_message,conversation))
 
-
-    def oott(self, message, member, source, **kwargs):
-        #print(member.direct_jid.bare())
-        if member in self.chatList:
-            win = self.chatList[member]
-            win.chatWin.append(str(message.body[aioxmpp.structs.LanguageTag.fromstr('en')]))
+    def on_message(self,conversation ,message, member, source,**kwargs):
+        '''
+        :param conversation
+        :param message 接收到的消息 <aioxmpp.Message>
+        :param member 发送消息成员 <aioxmpp.im.conversation.AbstractConversationMember>
+        :param
+        '''
+        if member == conversation.me:
+            return
+        mFlag = str(member.conversation_jid)
+        if mFlag in self.conversationList:
+            win = self.conversationList[mFlag]['win']
         else:
-            win = PersonalChatWin(member)
-            win.setWindowTitle(str(member.direct_jid))
-            #win._sendMsg2Core.connect()
+            win = PersonalChatWin(member.conversation_jid)
+            win._sendMsg2Friend.connect(self.sendMsg)
             win._closeSignal.connect(self.delWin)
-            win.chatWin.append(str(message.body[aioxmpp.structs.LanguageTag.fromstr('en')]))
-            self.chatList[member] = win
+            data = {}
+            data['win'] = win
+            data['conversation'] = conversation
+            self.conversationList[mFlag] = data
             win.show()
+        if aioxmpp.structs.LanguageTag.fromstr('en') in message.body:
+            win.chatWin.append('({}):\n{}'.format(TimeUtils.getTimeWithoutDay(),str(message.body[aioxmpp.structs.LanguageTag.fromstr('en')])))
 
-    def delWin(self,member):
-        del self.chatList[member]
+    def delWin(self,friend_jid):
+        del self.conversationList[str(friend_jid)]
 
+    def sendMsg(self,data):
+        msg = aioxmpp.Message(
+            to=data['JID'],  # recipient_jid must be an aioxmpp.JID
+            type_=aioxmpp.MessageType.CHAT,
+        )
+        msg.body[None] = data['msg']
+        Log.info('发送信息至[{}]'.format(str(data['JID'])),data)
+        self.conversationList[str(data['JID'])]['conversation'].send_message(msg)
+
+    def on_conversation_added(self,conversation):
+        conversation.on_message.connect(partial(self.on_message, conversation))

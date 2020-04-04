@@ -1,9 +1,17 @@
+import asyncio
+import os
+from functools import partial
+import aioxmpp
+
+from aioxmpp import AvatarService
+from ofrestapi import Users
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 #消息提醒
-from app.view import EntityItem
-from ui import entity_item
+import app
+from app import Config
+
 
 
 class TrayIcon(QSystemTrayIcon):
@@ -125,15 +133,55 @@ class Signal(QObject):
 class core():
     def __init__(self):
         pass
-
+def disco_callback(task):
+    result = task.result()
+    print(result.to_dict())
+    for item in result.to_dict()["features"]:
+        aioxmpp.disco.register_feature(item)
+def subscribeava(task):
+    result = task.result()
+    print(result)
+def callback(jid,task):
+    result = task.result()
+    print(result)
+    for i in result:
+        if i != None:
+            print(i)
+            sa = asyncio.ensure_future(i.get_image_bytes())
+            sa.add_done_callback(partial(cb,jid))
+def cb(jid,task):
+    print(task.result())
+    if task.result() != None:
+        binimg = task.result()
+        #print(binimg)
+        path = os.path.join(app.BASE_DIR, 'avatar', '{}.png'.format(jid))
+        with open(path, 'wb') as file:
+            file.write(binimg)
+        file.close()
+async def get_all(ava,friendlist):
+    tasks = []
+    for item in friendlist:
+        print(item['jid'])
+        task = asyncio.get_event_loop().create_task(ava.get_avatar_metadata(aioxmpp.JID.fromstr(item['jid']), require_fresh=True))
+        task.add_done_callback(partial(callback,item['jid']))
+        tasks.append(task)
+    await asyncio.gather(*tasks)
 if __name__ == "__main__":
     import sys
-    app = QApplication(sys.argv)
-    from app.view.MainWin import EDMianWin
-    # w = EDMianWin()
-    # w.show()
-    item_widget = EntityItem.EItem()
-    item_widget.show()
-    # item_widget.user_icon.setPixmap(QPixmap("icon/用户.svg"))
-    # item_widget.user_name.setText(str(item.jid))
-    sys.exit(app.exec_())
+    #app = QApplication(sys.argv)
+
+    loop = asyncio.get_event_loop()
+    mUser = Users('http://{}:{}'.format(Config._host, Config._restPort), Config._restPort_secret)
+    lista = mUser.get_user_roster('admin')
+    # print(list)
+    JID = aioxmpp.JID.fromstr("admin@192.168.123.230")
+    client = aioxmpp.PresenceManagedClient(JID, aioxmpp.make_security_layer("qin1029.", no_verify=True) )
+    client.start()
+    # discoClient = client.summon(DiscoClient)
+    # task = loop.create_task(discoClient.query_info(JID))
+    # task.add_done_callback(disco_callback)
+    # 用户头像
+    ava = client.summon(AvatarService)
+    task = loop.create_task(get_all(ava,lista['rosterItem']))
+    loop.run_until_complete(task)
+

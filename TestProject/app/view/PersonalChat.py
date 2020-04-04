@@ -2,18 +2,20 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSignal
 
 from ui import chatroom
+from utils import TimeUtils
+
 
 class PersonalChatWin(QtWidgets.QWidget,chatroom.Ui_Form):
-    _sendMsg2Core = pyqtSignal(dict)
+    _sendMsg2Friend = pyqtSignal(dict)
     _closeSignal = pyqtSignal(dict)
-    def __init__(self,user_data,parent=None):
+    def __init__(self,jid,parent=None):
         super(PersonalChatWin, self).__init__(parent)
-        self.user_data = user_data
+        self.  friend_jid = jid
         self.setupUi(self)
         self.initWin()
 
     def initWin(self):
-        self.setWindowTitle(str(self.user_data.direct_jid))
+        self.setWindowTitle(str(self.friend_jid))
         self.connectToListener()
         self.show()
 
@@ -26,10 +28,25 @@ class PersonalChatWin(QtWidgets.QWidget,chatroom.Ui_Form):
     def btnListener(self,sender):
         print(sender.objectName())
         btnName = sender.objectName()
-        data = {'JID':self.windowTitle()}
+        data = {'JID':self.friend_jid,'action':btnName}
+        user_icon = "D:\CodeSave\py\ChatChat\TestProject\src\images\CustomerService.png"
+        ss = '''<div class="">
+                  <div>
+                    <img src="{}">
+                  </div>
+                  <div>
+                    <div class=""></div>
+                    <span>{}</span>
+                  </div>
+                </div>'''
         if btnName == 'sendmsg':
             if self.inputWin.toPlainText() != '':
                 data['msg'] = str(self.inputWin.toPlainText())
+                self.inputWin.setText('')
+                #self.chatWin.append('({}):\n{}'.format(TimeUtils.getTimeWithoutDay(),ss+data['msg']))
+                self.chatWin.append(ss.format(user_icon,data['msg']))
+            else:
+                return
         elif btnName == 'emotion':
             pass
         elif btnName == 'sendimg':
@@ -42,11 +59,10 @@ class PersonalChatWin(QtWidgets.QWidget,chatroom.Ui_Form):
             pass
         elif btnName == 'todo3':
             pass
-        print(data)
-        self._sendMsg2Core.emit(data)
+        self._sendMsg2Friend.emit(data)
     def checkBoxListener(self):
         pass
 
     def close(self):
-        self._closeSignal.emit(self.user_data)
+        self._closeSignal.emit(self.friend_jid)
         super().close()

@@ -69,6 +69,14 @@ QToolButton#avatar{
     margin:5px;
     background-image:"src/icon/用户.svg";
 }
+Qwidget#conversation >QToolButton{
+    border:groove gray;
+    border-width: 1px;
+    border-style: solid;
+    border-radius:26px;
+    margin:5px;
+    /*background-image:"src/icon/用户.svg";*/
+}
 QToolBox::tab{
     border:0px 0px 0px 1px;
     background-color:#03A9F4;
@@ -78,7 +86,11 @@ QToolBox::tab:hover{
     opacity:0.5;
     }
 
-QGroupBox#top_btn_gb QPushButton {
+QGroupBox#top_btn_gb ,QGroupBox#user_info_gb{
+    border:0px;
+    background: yellow;
+}
+QGroupBox#top_btn_gb>QPushButton {
     background-color: #03A9F4;
     border-width: 0px;
     border-style: solid;
@@ -87,11 +99,11 @@ QGroupBox#top_btn_gb QPushButton {
     min-height: 2ex;
 }F
 
-QGroupBox#top_btn_gb QPushButton:hover{
+QGroupBox#top_btn_gb >QPushButton:hover{
     background-color:#FF9800;
     opacity:0.1;
 }
-QGroupBox#top_btn_gb QPushButton:pressed {
+QGroupBox#top_btn_gb >QPushButton:pressed {
     padding-left: 3px;
     padding-top: 3px;
     background-color: #d0d67c;

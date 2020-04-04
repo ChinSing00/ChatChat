@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>260</width>
-    <height>700</height>
+    <width>300</width>
+    <height>761</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -76,7 +76,7 @@
     </property>
     <item>
      <widget class="QGroupBox" name="top_btn_gb">
-      <layout class="QHBoxLayout" name="horizontalLayout" stretch="6,0,1,1">
+      <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,6,0,0,0,1,1">
        <property name="spacing">
         <number>0</number>
        </property>
@@ -93,17 +93,85 @@
         <number>0</number>
        </property>
        <item>
+        <widget class="QLabel" name="label">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Snap ITC</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>&lt;P&gt;ChatChat&lt;/P&gt;</string>
+         </property>
+         <property name="margin">
+          <number>6</number>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>40</width>
+           <width>30</width>
            <height>20</height>
           </size>
          </property>
         </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="add_btn">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../src/img.qrc">
+           <normaloff>:/src/icon/添加好友 _1.svg</normaloff>:/src/icon/添加好友 _1.svg</iconset>
+         </property>
+         <property name="autoRepeat">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="skin_btn">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../src/img.qrc">
+           <normaloff>:/src/icon/皮肤.svg</normaloff>:/src/icon/皮肤.svg</iconset>
+         </property>
+         <property name="autoRepeat">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QPushButton" name="setting_btn">
@@ -225,7 +293,7 @@
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>...</string>
+          <string/>
          </property>
          <property name="iconSize">
           <size>
@@ -399,6 +467,12 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>601</height>
+           </size>
+          </property>
           <property name="styleSheet">
            <string notr="true"/>
           </property>
@@ -422,8 +496,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>254</width>
-             <height>553</height>
+             <width>294</width>
+             <height>604</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -445,8 +519,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>254</width>
-             <height>549</height>
+             <width>294</width>
+             <height>614</height>
             </rect>
            </property>
            <property name="sizePolicy">

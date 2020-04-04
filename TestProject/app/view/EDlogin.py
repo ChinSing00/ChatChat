@@ -26,8 +26,10 @@ class LoginDialog(QtWidgets.QDialog,login.Ui_loginWin,OpenAnimation):
             user['JID'] = self.loginAccount.text()+"@192.168.123.230/S1mple"
             user['PWD'] = self.loginPwd.text()
             self.signal2Core.emit(user)
+            self.login_btn.setDisabled(True)
         else:
             QtWidgets.QMessageBox.information(self, '登陆错误', '账号密码不能为空！请输入！')
+
     def checkBoxListener(self):
         pass
     def initDatabase(self):
@@ -58,6 +60,7 @@ class LoginDialog(QtWidgets.QDialog,login.Ui_loginWin,OpenAnimation):
             self.database.close()
             self.close()
         elif flag == 0:
+            self.login_btn.setDisabled(True)
             QtWidgets.QMessageBox.information(self,'登陆错误', '密码或账号错误！请重新登陆！')
 
     def savePwdAndAutoLogin(self):

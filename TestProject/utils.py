@@ -1,5 +1,7 @@
 # coding=utf-8
 import os, sys
+import time
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(BASE_DIR)
 
@@ -24,7 +26,23 @@ class Log():
     def info(flag,msg):
         print('{}:{}'.format(flag,msg))
 
-#todo python下switch语句实现
-class Switch():
+class FileUtils():
     def __init__(self):
         pass
+    @staticmethod
+    def savaToPng(path,data):
+        with open(path, 'wb') as file:
+            file.write(data)
+        file.close()
+
+class SimpleImgUtils():
+    def __init__(self):
+        pass
+
+class TimeUtils():
+    @staticmethod
+    def getTimeWithoutDay():
+        return time.strftime("%H:%M:%S", time.localtime())
+
+if __name__ == '__main__':
+    print(type(TimeUtils.getTimeWithoutDay()))

@@ -21,6 +21,8 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
 
     def iniWin(self):
         self.isPressed = False
+        self.origan_skin = True
+        self.friends_data = {}
         desktop = QApplication.desktop()
         x = (desktop.width() - self.frameSize().width())
         y = (desktop.height() - self.frameSize().height()) // 2
@@ -32,29 +34,39 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
     def connectToListener(self):
         self.close_btn.clicked.connect(self.close)
         self.minimum_btn.clicked.connect(self.showMinimized)
-        self.setting_btn.clicked.connect(self.setting)
+        self.skin_btn.clicked.connect(self.changeSkin)
 
     #加载好友，头像等数据
-    def loadData(self,roster):
-        for group in roster:
-            groupbox= QGroupBox(self.chat_list)
+    def loadData(self,item):
+        groupbox = None
+        container_layout =None
+        Log.info("加载好友数据列：",item)
+        if not item['groups'][0] in self.friends_data:
+            groupbox = QGroupBox(self.chat_list)
             groupbox.setFlat(True)
             container_layout = QVBoxLayout()
+            container_layout.setAlignment(QtCore.Qt.AlignTop)
             groupbox.setLayout(container_layout)
-            self.chat_list.addItem(groupbox,group)
-            #self.chat_list.itemIcon(QPixmap('src/icon/下拉.svg'))
-            # Log.info("加载好友列表",group)
-            for item in roster[group]:
-                # Log.info("加载【{}】好友：".format(group), item.jid)
-                self.generate_item(container_layout,item)
+            self.chat_list.addItem(groupbox, item['groups'][0])
+            self.add__friend(container_layout, item)
+            self.friends_data[item['groups'][0]] = container_layout
+        else:
+            self.add__friend(self.friends_data[item['groups'][0]], item)
 
-    def generate_item(self,container_layout,item):
+    def add__friend(self,container_layout,item):
         item_widget = EntityItem.EItem()
         item_widget.setData(item)
         container_layout.addWidget(item_widget)
-    def setting(self):
-        self.setStyleSheet(utils.StyleReader.readQssFromFile("skin.qss"))
 
+    def changeSkin(self):
+        from PyQt5.Qt import QApplication
+        if self.origan_skin:
+            skin = "skin2.qss"
+            self.origan_skin = False
+        else:
+            skin = "skin.qss"
+            self.origan_skin =True
+        QApplication.instance().setStyleSheet(utils.StyleReader.readQssFromFile(skin))
     def closeEvent(self, event):
         """
         对MainWindow的函数closeEvent进行重构
