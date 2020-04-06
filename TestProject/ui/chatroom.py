@@ -41,12 +41,17 @@ class Ui_Form(object):
         self.horizontalLayout_2.setStretch(2, 20)
         self.verticalLayout.addWidget(self.widget)
         self.chatWin = QtWidgets.QTextBrowser(self.left)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.chatWin.sizePolicy().hasHeightForWidth())
+        self.chatWin.setSizePolicy(sizePolicy)
         self.chatWin.setFrameShape(QtWidgets.QFrame.Box)
         self.chatWin.setFrameShadow(QtWidgets.QFrame.Plain)
         self.chatWin.setLineWidth(1)
         self.chatWin.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.chatWin.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.chatWin.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
+        self.chatWin.setLineWrapMode(QtWidgets.QTextEdit.WidgetWidth)
         self.chatWin.setOverwriteMode(False)
         self.chatWin.setObjectName("chatWin")
         self.verticalLayout.addWidget(self.chatWin)
@@ -148,6 +153,11 @@ class Ui_Form(object):
         self.pushButton.setText(_translate("Form", "PushButton"))
         self.pushButton_2.setText(_translate("Form", "PushButton"))
         self.chatWin.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        self.inputWin.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
