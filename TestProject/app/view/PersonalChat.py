@@ -30,21 +30,12 @@ class PersonalChatWin(QtWidgets.QWidget,chatroom.Ui_Form):
         btnName = sender.objectName()
         data = {'JID':self.friend_jid,'action':btnName}
         user_icon = "D:\CodeSave\py\ChatChat\TestProject\src\images\CustomerService.png"
-        ss = '''<div class="">
-                  <div>
-                    <img src="{}">
-                  </div>
-                  <div>
-                    <div class=""></div>
-                    <span>{}</span>
-                  </div>
-                </div>'''
+        ss = '''<a>({}):</a><a>{}</a>'''
         if btnName == 'sendmsg':
             if self.inputWin.toPlainText() != '':
                 data['msg'] = str(self.inputWin.toPlainText())
                 self.inputWin.setText('')
-                #self.chatWin.append('({}):\n{}'.format(TimeUtils.getTimeWithoutDay(),ss+data['msg']))
-                self.chatWin.append(ss.format(user_icon,data['msg']))
+                self.chatWin.append(ss.format(TimeUtils.getTimeWithoutDay(),data['msg']))
             else:
                 return
         elif btnName == 'emotion':

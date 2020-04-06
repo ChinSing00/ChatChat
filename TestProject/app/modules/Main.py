@@ -2,6 +2,7 @@ import asyncio
 import os
 from functools import partial
 
+from PyQt5.QtCore import pyqtSignal, QObject
 from ofrestapi.exception import InvalidResponseException
 
 import app
@@ -12,8 +13,10 @@ from asyncio import sleep, ensure_future, create_task, get_event_loop
 from ofrestapi import Users
 from app import Config
 
-class FriendsList():
+class FriendsList(QObject):
+    _chat2Friend_signal = pyqtSignal(dict)
     def __init__(self):
+        super(FriendsList, self).__init__()
         self._client = None
         self.mWin = EDMianWin()
         self._queue =asyncio.Queue(maxsize=5)
@@ -27,19 +30,15 @@ class FriendsList():
         self.core = core
         self._client = core.client
         self.mWin.user_nane.setText(core.jid.localpart)
+        self.mWin._chat2Friend_signal.connect(self.chat2Friend)
         self.mWin.show()
         self.core._sign_login.emit(1)#发射关闭登陆界面信号
         self.avatar_server = self._client.summon(AvatarService)#唤起头像服务
         await ensure_future(self.getInfo())
         await ensure_future(self._run())
 
-    def initRoster(self):
-        self.mWin.loadData(self.roster_server.groups)
-        Log.info('加载好友列表：','start...')
-        print(self.roster_server.groups)
-        for group in self.roster_server.groups:
-            for item in self.roster_server.groups[group]:
-                Log.info("加载【{}】好友：".format(group),item.jid)
+    def chat2Friend(self,data):
+        self._chat2Friend_signal.emit(data)
 
     def req_avatar_callback(self,friend,task):
         result = task.result()#result为 <AbstractAvatarDescriptor> 对象的列表集合
@@ -63,6 +62,7 @@ class FriendsList():
             FileUtils.savaToPng(avatar_path,bin_data)
         friend['avatar_path'] = avatar_path
         self.mWin.loadData(friend)
+
     async def getInfo(self):
         tasks=[]
         friend_List = None

@@ -18,11 +18,17 @@ class core(QObject):
         from app.modules.Main import FriendsList
         futures = []
         Log.info("模块加载", "正在加载...")
-        futures.append(asyncio.ensure_future(FriendsList().setup(self)))
-        futures.append(asyncio.ensure_future(Chat().setup(self)))
+        flist = FriendsList()
+        chat = Chat()
+        flist._chat2Friend_signal.connect(chat._recvChat_Signal.emit)
+        futures.append(asyncio.ensure_future(flist.setup(self)))
+        futures.append(asyncio.ensure_future(chat.setup(self)))
+
         async with self.client.connected() as stream:
             await asyncio.gather(*futures)#并发运行序列中的可等待对象
             #Log.info("模块加载", "加载完成")
+        if not self.client.connected():
+            pass
 
     def start(self, user):
         Log.info('开始登陆', user)
