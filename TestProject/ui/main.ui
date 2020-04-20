@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>316</width>
+    <width>312</width>
     <height>700</height>
    </rect>
   </property>
@@ -63,16 +63,16 @@
      <number>0</number>
     </property>
     <property name="leftMargin">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="topMargin">
      <number>0</number>
     </property>
     <property name="rightMargin">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="bottomMargin">
-     <number>2</number>
+     <number>0</number>
     </property>
     <item>
      <widget class="QGroupBox" name="top_btn_gb">
@@ -366,6 +366,12 @@
          </item>
          <item>
           <widget class="QLabel" name="user_nane">
+           <property name="font">
+            <font>
+             <family>黑体</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="frameShape">
             <enum>QFrame::NoFrame</enum>
            </property>
@@ -458,7 +464,7 @@
          <number>0</number>
         </property>
         <property name="sizeConstraint">
-         <enum>QLayout::SetNoConstraint</enum>
+         <enum>QLayout::SetMaximumSize</enum>
         </property>
         <property name="leftMargin">
          <number>0</number>
@@ -558,6 +564,29 @@
        <attribute name="title">
         <string>群聊发现</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="sizeConstraint">
+         <enum>QLayout::SetMinAndMaxSize</enum>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QListView" name="room_list"/>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

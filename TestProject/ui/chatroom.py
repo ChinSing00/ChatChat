@@ -10,13 +10,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(780, 585)
-        self.horizontalLayout = QtWidgets.QHBoxLayout(Form)
+class Ui_chat_win(object):
+    def setupUi(self, chat_win):
+        chat_win.setObjectName("chat_win")
+        chat_win.resize(780, 585)
+        self.horizontalLayout = QtWidgets.QHBoxLayout(chat_win)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.left = QtWidgets.QWidget(Form)
+        self.left = QtWidgets.QWidget(chat_win)
         self.left.setObjectName("left")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.left)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -125,12 +125,12 @@ class Ui_Form(object):
         self.verticalLayout.setStretch(3, 5)
         self.verticalLayout.setStretch(4, 1)
         self.horizontalLayout.addWidget(self.left)
-        self.mid_line = QtWidgets.QFrame(Form)
+        self.mid_line = QtWidgets.QFrame(chat_win)
         self.mid_line.setFrameShape(QtWidgets.QFrame.VLine)
         self.mid_line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.mid_line.setObjectName("mid_line")
         self.horizontalLayout.addWidget(self.mid_line)
-        self.right = QtWidgets.QWidget(Form)
+        self.right = QtWidgets.QWidget(chat_win)
         self.right.setObjectName("right")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.right)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -143,24 +143,24 @@ class Ui_Form(object):
         self.horizontalLayout.setStretch(0, 3)
         self.horizontalLayout.setStretch(2, 1)
 
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.retranslateUi(chat_win)
+        QtCore.QMetaObject.connectSlotsByName(chat_win)
 
-    def retranslateUi(self, Form):
+    def retranslateUi(self, chat_win):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        Form.setToolTip(_translate("Form", "<html><head/><body><p>ToolTips?</p></body></html>"))
-        self.pushButton.setText(_translate("Form", "PushButton"))
-        self.pushButton_2.setText(_translate("Form", "PushButton"))
-        self.chatWin.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        chat_win.setWindowTitle(_translate("chat_win", "Form"))
+        chat_win.setToolTip(_translate("chat_win", "<html><head/><body><p>ToolTips?</p></body></html>"))
+        self.pushButton.setText(_translate("chat_win", "PushButton"))
+        self.pushButton_2.setText(_translate("chat_win", "PushButton"))
+        self.chatWin.setHtml(_translate("chat_win", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.inputWin.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        self.inputWin.setHtml(_translate("chat_win", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.sendmsg.setText(_translate("Form", "发送信息"))
+        self.sendmsg.setText(_translate("chat_win", "发送信息"))
 from src import img_rc

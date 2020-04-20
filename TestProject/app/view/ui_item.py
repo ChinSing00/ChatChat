@@ -1,17 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-'''
-Created on 2015-1-9
-
-@author: ヽoo悾絔℅o。
-
-@email: 892768447@qq.com
-
-@description: item布局
-'''
 from PyQt5.QtCore import QSize, Qt, QCoreApplication, QMetaObject
+from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout
+
+from utils import SimpleImgUtils
 
 
 class Ui_Item(object):
@@ -77,13 +68,12 @@ class Ui_Item(object):
 
         # 初始化一些设置
         _translate = QCoreApplication.translate
-        #style = '''QLabel#userLabel { \n image:url(:src/images/CustomerService.png); \n}'''
-        #style = '''QLabel#userLabel { \n image:url("%s"); \n}'''%userhead
-        #print(style)
-        #self.userLabel.setStyleSheet(style)
-        self.userLabel.setText("<img src='{}'/>".format(userhead))
+        usericon = QPixmap.fromImage(QImage(userhead)) if userhead else QPixmap(":src\images\CustomerService.png")
+        self.userLabel.setScaledContents(True)
+        self.userLabel.setPixmap(usericon)
         self.nameLabel.setText(_translate("Item", name))
         self.moodLabel.setText(_translate("Item", mood))
         if which:
             self.timeLabel.setText(_translate("Item", times))
         QMetaObject.connectSlotsByName(Item)
+from src import img_rc

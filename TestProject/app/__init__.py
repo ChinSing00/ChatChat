@@ -5,3 +5,6 @@ class Config():
     _host = '192.168.123.230'
     _restPort = '9090'
     _restPort_secret = 'dyMW0FcWB3GH9Rmo'
+
+class AppContext():
+    pass

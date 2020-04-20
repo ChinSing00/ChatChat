@@ -1,0 +1,102 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'register.ui'
+#
+# Created by: PyQt5 UI code generator 5.13.0
+#
+# WARNING! All changes made in this file will be lost!
+
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(389, 285)
+        self.horizontalLayout = QtWidgets.QHBoxLayout(Dialog)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        spacerItem = QtWidgets.QSpacerItem(88, 263, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
+        self.formLayout = QtWidgets.QFormLayout()
+        self.formLayout.setFormAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.formLayout.setObjectName("formLayout")
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_7.setContentsMargins(-1, -1, -1, 11)
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem1)
+        self.toolButton = QtWidgets.QToolButton(Dialog)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.toolButton.sizePolicy().hasHeightForWidth())
+        self.toolButton.setSizePolicy(sizePolicy)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/src/images/CustomerCopy.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.toolButton.setIcon(icon)
+        self.toolButton.setIconSize(QtCore.QSize(60, 60))
+        self.toolButton.setAutoExclusive(True)
+        self.toolButton.setObjectName("toolButton")
+        self.horizontalLayout_7.addWidget(self.toolButton)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem2)
+        self.formLayout.setLayout(0, QtWidgets.QFormLayout.SpanningRole, self.horizontalLayout_7)
+        self.label = QtWidgets.QLabel(Dialog)
+        self.label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label.setObjectName("label")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label)
+        self.lineEdit = QtWidgets.QLineEdit(Dialog)
+        self.lineEdit.setObjectName("lineEdit")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.lineEdit)
+        self.label_6 = QtWidgets.QLabel(Dialog)
+        self.label_6.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_6.setObjectName("label_6")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_6)
+        self.lineEdit_6 = QtWidgets.QLineEdit(Dialog)
+        self.lineEdit_6.setObjectName("lineEdit_6")
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.lineEdit_6)
+        self.lineEdit_2 = QtWidgets.QLineEdit(Dialog)
+        self.lineEdit_2.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.lineEdit_2)
+        self.label_3 = QtWidgets.QLabel(Dialog)
+        self.label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_3.setObjectName("label_3")
+        self.formLayout.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.label_3)
+        self.lineEdit_3 = QtWidgets.QLineEdit(Dialog)
+        self.lineEdit_3.setInputMask("")
+        self.lineEdit_3.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.lineEdit_3.setObjectName("lineEdit_3")
+        self.formLayout.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.lineEdit_3)
+        self.pushButton = QtWidgets.QPushButton(Dialog)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
+        self.pushButton.setSizePolicy(sizePolicy)
+        self.pushButton.setDefault(False)
+        self.pushButton.setFlat(False)
+        self.pushButton.setObjectName("pushButton")
+        self.formLayout.setWidget(5, QtWidgets.QFormLayout.SpanningRole, self.pushButton)
+        self.label_2 = QtWidgets.QLabel(Dialog)
+        self.label_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_2.setObjectName("label_2")
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_2)
+        self.horizontalLayout.addLayout(self.formLayout)
+        spacerItem3 = QtWidgets.QSpacerItem(88, 263, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem3)
+
+        self.retranslateUi(Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    def retranslateUi(self, Dialog):
+        _translate = QtCore.QCoreApplication.translate
+        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.toolButton.setText(_translate("Dialog", "..."))
+        self.label.setText(_translate("Dialog", "用户名"))
+        self.label_6.setText(_translate("Dialog", "昵  称"))
+        self.label_3.setText(_translate("Dialog", "密  码"))
+        self.pushButton.setText(_translate("Dialog", "注册"))
+        self.label_2.setText(_translate("Dialog", "密  码"))
+from src import img_rc

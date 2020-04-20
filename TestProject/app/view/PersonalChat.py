@@ -5,7 +5,7 @@ from ui import chatroom
 from utils import TimeUtils
 
 
-class PersonalChatWin(QtWidgets.QWidget,chatroom.Ui_Form):
+class PersonalChatWin(QtWidgets.QWidget,chatroom.Ui_chat_win):
     _sendMsg2Friend = pyqtSignal(dict)
     _closeSignal = pyqtSignal(dict)
     def __init__(self,jid,parent=None):

@@ -9,6 +9,8 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from ui.mylabel import MyLabel
+
 
 class Ui_loginWin(object):
     def setupUi(self, loginWin):
@@ -36,9 +38,15 @@ class Ui_loginWin(object):
         self.remeberPwd = QtWidgets.QCheckBox(self.layoutWidget)
         self.remeberPwd.setObjectName("remeberPwd")
         self.horizontalLayout_3.addWidget(self.remeberPwd)
-        self.retrievePwd = QtWidgets.QLabel(self.layoutWidget)
-        self.retrievePwd.setObjectName("retrievePwd")
-        self.horizontalLayout_3.addWidget(self.retrievePwd)
+        self.rigister = MyLabel(self.layoutWidget)
+        self.rigister.setLineWidth(0)
+        self.rigister.setTextFormat(QtCore.Qt.RichText)
+        self.rigister.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft)
+        self.rigister.setWordWrap(False)
+        self.rigister.setIndent(0)
+        self.rigister.setOpenExternalLinks(False)
+        self.rigister.setObjectName("rigister")
+        self.horizontalLayout_3.addWidget(self.rigister)
         self.formLayout.setLayout(2, QtWidgets.QFormLayout.LabelRole, self.horizontalLayout_3)
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
@@ -74,6 +82,7 @@ class Ui_loginWin(object):
         self.formLayout.setLayout(0, QtWidgets.QFormLayout.SpanningRole, self.horizontalLayout)
 
         self.retranslateUi(loginWin)
+        self.rigister.Click.connect(self.rigister.openRegWin)
         QtCore.QMetaObject.connectSlotsByName(loginWin)
 
     def retranslateUi(self, loginWin):
@@ -81,9 +90,8 @@ class Ui_loginWin(object):
         loginWin.setWindowTitle(_translate("loginWin", "登陆"))
         self.autoLogin.setText(_translate("loginWin", "自动登陆"))
         self.remeberPwd.setText(_translate("loginWin", "记住密码"))
-        self.retrievePwd.setText(_translate("loginWin", "注册账号"))
+        self.rigister.setText(_translate("loginWin", "<a href=\"\">注册账号</a>"))
         self.login_btn.setText(_translate("loginWin", "登陆"))
         self.label_2.setText(_translate("loginWin", "密  码"))
         self.label.setText(_translate("loginWin", "用户名"))
-
 from src import img_rc

@@ -55,12 +55,12 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="retrievePwd">
+       <widget class="MyLabel" name="rigister">
         <property name="lineWidth">
          <number>0</number>
         </property>
         <property name="text">
-         <string>&lt;a href='http://192.168.123.230:9090/plugins/registration/sign-up.jsp'&gt;注册账号&lt;/a&gt;</string>
+         <string>&lt;a href=&quot;&quot;&gt;注册账号&lt;/a&gt;</string>
         </property>
         <property name="textFormat">
          <enum>Qt::RichText</enum>
@@ -75,7 +75,7 @@
          <number>0</number>
         </property>
         <property name="openExternalLinks">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -139,10 +139,38 @@
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">mylabel.h</header>
+   <slots>
+    <signal>Click()</signal>
+    <slot>openRegWin()</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../src/img.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>rigister</sender>
+   <signal>Click()</signal>
+   <receiver>rigister</receiver>
+   <slot>openRegWin()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>309</x>
+     <y>195</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>309</x>
+     <y>195</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
  <slots>
   <signal>login()</signal>
  </slots>

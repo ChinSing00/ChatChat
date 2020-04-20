@@ -58,7 +58,7 @@ class FriendsList(QObject):
             path_dir = os.path.join(app.BASE_DIR, 'avatar',self.core.jid.localpart)
             if not os.path.exists(path_dir):
                 os.mkdir(path_dir)
-            avatar_path  = os.path.join(path_dir,'{}.png'.format(friend['jid']))
+            avatar_path  = os.path.join(path_dir,'{}.jpg'.format(friend['jid']))
             FileUtils.savaToPng(avatar_path,bin_data)
         friend['avatar_path'] = avatar_path
         self.mWin.loadData(friend)

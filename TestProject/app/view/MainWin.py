@@ -1,6 +1,6 @@
 import os
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, QSize
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import QMainWindow
 from quamash import QApplication
@@ -75,11 +75,7 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
             self.origan_skin =True
         QApplication.instance().setStyleSheet(utils.StyleReader.readQssFromFile(skin))
 
-    # def paintEvent(self, a0: QtGui.QPaintEvent) -> None:
-    #     pen = QPainter(self)
-    #     pen.setBrush(QColor("#CCCCFF"))
-    #     pen.setPen(QColor("#FF0000"))
-    #     pen.drawRoundedRect(0, 0, self.width() - 1, self.height() - 1, 20, 20);
+
 
     def closeEvent(self, event):
         """

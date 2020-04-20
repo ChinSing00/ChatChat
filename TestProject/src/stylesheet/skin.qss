@@ -1,22 +1,28 @@
-QWidget#win_container {
-    border-radius: 5px;
-    border: none;
-    opacity:0.1;
-    /*background: transparent url(:src/images/main_bg3.jpg)  no-repeat center center;*/
+MainWindow{
+    padding:none;
+    margin:none;
+    background: transparent url(:src/images/main_bg3.jpg)  no-repeat center center;
+}
+
+QWidget#win_container,QWidget#win_container >QWidget{
+    /*border-radius: 5px;*/
+    background:#4BE0A7;
+    border:none;
+    margin:0;
+
 }
 
 QTabWidget::pane { /* The tab widget frame */
-    /*border-top: 2px solid #C2C7CB;*/
-    opacity:0.5;
 }
-
 QTabWidget::tab-bar {
     left: 0px; /* move to the right by 5px */
 }
 QTabBar, QTabWidget {
     /*background-color: #03A9F4;*/
-    opacity:0.5;
-
+}
+QTabWidget QFrame {
+    padding: 0px;
+    background:#4BE0A7;
 }
 QTabBar::tab {
      background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
@@ -25,7 +31,7 @@ QTabBar::tab {
      /*border: 1px solid darkkhaki;*/
      /*border-bottom-color: #C2C7CB; /* same as the pane color */
      border-top-left-radius: 1px;
-     border-top-right-radius: 1px;
+     border-top-right-radius: 10px;
      min-width: 14ex;
      min-height:8ex;
      padding: 0px;
@@ -50,6 +56,7 @@ QTabBar::tab:!selected {
     margin-top: 2px; /* make non-selected tabs look smaller */
 }
 
+
 /* Nice Windows-XP-style password character. */
 QLineEdit[echoMode="2"] {
     lineedit-password-character: 9679;
@@ -66,13 +73,8 @@ QToolButton#avatar{
     margin:10px;
     background: transparent url(:src/images/CustomerService.png)  no-repeat center center ;
 }
-QGroupBox#top_btn_gb,QGroupBox#user_info_gb{
-    border:0;
-    background: yellow;
-}
-
-QGroupBox#top_btn_gb QPushButton {
-    background-color: yellow;
+QGroupBox#top_btn_gb> QPushButton {
+    background-color:#4BE0A7;
     border-width: 0px;
     border-style: solid;
     border-radius: 0px;
@@ -80,7 +82,7 @@ QGroupBox#top_btn_gb QPushButton {
     min-height: 2ex;
 }
 
-QGroupBox#top_btn_gb QPushButton:hover{
+QGroupBox#top_btn_gb >QPushButton:hover{
     background-color:#FF9800;
     opacity:0.01;
 }
@@ -92,11 +94,48 @@ QGroupBox#top_btn_gb QPushButton:pressed {
     opacity:0.1;
 }
 
-QTreeView{
-    border: none;
+/* === QTreeView === */
+
+QTreeView::item:hover {
+    background:  #848484;
+    color:  #d0d67c;
 }
-QTreeView::item:selected{
-    background-color:#FF9800;
+
+QTreeView::item:selected {
+    background:  #E61F6B;
+}
+
+QTreeView::branch {
+    background:  #00CC99;
+    color:  #d0d67c;
+}
+
+QTreeView::branch:has-siblings:adjoins-item {
+
+}
+
+QTreeView::branch:has-siblings:!adjoins-item {
+
+}
+
+QTreeView::branch:closed:has-children:has-siblings {
+
+}
+
+QTreeView::branch:has-children:!has-siblings:closed {
+
+}
+
+QTreeView::branch:!has-children:!has-siblings:adjoins-item {
+
+}
+
+QTreeView::branch:open:has-children:has-siblings {
+
+}
+
+QTreeView::branch:open:has-children:!has-siblings {
+
 }
 /*已修改——end*/
 
@@ -135,14 +174,7 @@ QPushButton:pressed {
     selection-background-color: #C19A6B;
 }*/
 
-QTabWidget QFrame {
-    wid
-    border-width: 0px;
-    padding: 0px;
-    border-style: solid;
-    border-color: darkkhaki;
-    border-radius: 15px;
-}
+
 /* Nice to have the background color change when hovered. */
 QRadioButton:hover, QCheckBox:hover {
     background-color: wheat;

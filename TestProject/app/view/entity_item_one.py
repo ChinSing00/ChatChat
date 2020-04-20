@@ -28,13 +28,13 @@ class User_Item(QTreeWidgetItem):
         QTreeWidgetItem.__init__(self, parent)
         self.setSizeHint(0, QSize(280, 30))    # 设置Item大小
         self.setTitle(text)    # 设置该Item的文字
+        self.setIcon(0, cache.item_icon)
         self.which = which
 
     def setTitle(self, text = ""):
         self.setText(0, text)
 
     def setUsers(self, user = None):
-        print(user)
         childItem = QTreeWidgetItem(self)
         childWidget = Child_Item(None, user['avatar_path'], (user['nickname'] if 'nickname' in user and user['nickname'] else user['jid'] ), mood="", times='', which = 0)
         childWidget.data =  user
