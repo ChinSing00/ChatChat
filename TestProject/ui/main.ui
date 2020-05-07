@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>312</width>
-    <height>700</height>
+    <width>294</width>
+    <height>568</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -82,7 +82,7 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,1,1">
+      <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,1,1">
        <property name="spacing">
         <number>0</number>
        </property>
@@ -99,35 +99,16 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QLabel" name="label">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <family>Snap ITC</family>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>&lt;P&gt;ChatChat&lt;/P&gt;</string>
-         </property>
-         <property name="margin">
-          <number>6</number>
-         </property>
-        </widget>
-       </item>
-       <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Preferred</enum>
+         </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>52</width>
+           <width>152</width>
            <height>20</height>
           </size>
          </property>
@@ -136,7 +117,7 @@
        <item>
         <widget class="QPushButton" name="add_btn">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -162,7 +143,7 @@
        <item>
         <widget class="QPushButton" name="skin_btn">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -214,7 +195,7 @@
        <item>
         <widget class="QPushButton" name="minimum_btn">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>

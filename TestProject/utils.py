@@ -3,9 +3,10 @@ import base64
 import os, sys
 import time
 
-from PyQt5.QtCore import Qt, QSize
-from PyQt5.QtGui import QPixmap, QImage
-from PyQt5.QtWidgets import QApplication
+from PyQt5 import QtSql
+from PyQt5.QtCore import Qt, QSize, QRegExp
+from PyQt5.QtGui import QPixmap, QImage, QRegExpValidator
+from PyQt5.QtWidgets import  QLineEdit
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(BASE_DIR)
@@ -30,16 +31,16 @@ class Log():
     @staticmethod
     def info(flag,msg):
         print('{}:{}'.format(flag,msg))
-
+#文件保存
 class FileUtils():
     def __init__(self):
         pass
-    @staticmethod
+
     def savaToPng(path,data):
         with open(path, 'wb') as file:
             file.write(data)
         file.close()
-
+#图片处理
 class SimpleImgUtils():
     def __init__(self):
         pass
@@ -58,13 +59,40 @@ class SimpleImgUtils():
         with open(image_path, 'rb') as f:
             image = f.read()
         return base64.b64encode(image)
-
+#时间处理
 class TimeUtils():
     @staticmethod
     def getTimeWithoutDay():
         return time.strftime("%H:%M:%S", time.localtime())
 
+class DBUtils():
+    def __init__(self,name):
+        self.DB = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        self.DB.setDatabaseName(name)
 
+    @property
+    def getDB(self):
+        return self.DB
+    def open(self):
+        self.DB.open()
+
+class MyValiator():
+
+    @staticmethod
+    def Valida2StrNum(widget,valid_to:QLineEdit):
+        #数字和26个英文字母组成的字符串
+        reg = QRegExp('[a-zA-z0-9]+$')
+        validator = QRegExpValidator(widget)
+        validator.setRegExp(reg)
+        valid_to.setValidator(validator)
+
+    @staticmethod
+    def Valida2Str(widget, valid_to: QLineEdit):
+        #中文、英文、数字包括下划线
+        reg = QRegExp("^[\u4E00-\u9FA5A-Za-z0-9_]+$")
+        validator = QRegExpValidator(widget)
+        validator.setRegExp(reg)
+        valid_to.setValidator(validator)
 
 
 if __name__ == '__main__':

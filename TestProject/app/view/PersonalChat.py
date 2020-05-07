@@ -22,11 +22,11 @@ class PersonalChatWin(QtWidgets.QWidget,chatroom.Ui_chat_win):
     def connectToListener(self):
         self.sendmsg.pressed.connect(lambda :self.btnListener(self.sendmsg))
         self.emotion.pressed.connect(lambda :self.btnListener(self.emotion))
-        self.sendimg.pressed.connect(lambda :self.btnListener(self.sendmsg))
-        self.screenshot.pressed.connect(lambda :self.btnListener(self.screenshot))
+        self.menu.pressed.connect(lambda :self.btnListener(self.menu))
+
 
     def btnListener(self,sender):
-        print(sender.objectName())
+
         btnName = sender.objectName()
         data = {'JID':self.friend_jid,'action':btnName}
         user_icon = "D:\CodeSave\py\ChatChat\TestProject\src\images\CustomerService.png"
@@ -36,21 +36,15 @@ class PersonalChatWin(QtWidgets.QWidget,chatroom.Ui_chat_win):
                 data['msg'] = str(self.inputWin.toPlainText())
                 self.inputWin.setText('')
                 self.chatWin.append(ss.format(TimeUtils.getTimeWithoutDay(),data['msg']))
+                self._sendMsg2Friend.emit(data)
+                return
             else:
                 return
         elif btnName == 'emotion':
             pass
         elif btnName == 'sendimg':
             pass
-        elif btnName == 'screenshot':
-            pass
-        elif btnName == 'todo1':
-            pass
-        elif btnName == 'todo2':
-            pass
-        elif btnName == 'todo3':
-            pass
-        self._sendMsg2Friend.emit(data)
+
     def checkBoxListener(self):
         pass
 

@@ -3,8 +3,9 @@ from PyQt5 import QtWidgets, QtSql,Qt
 from PyQt5.QtSql import QSqlQuery
 from PyQt5.QtCore import pyqtSignal
 from app.view.Animation import OpenAnimation
-from  utils import Log
+from utils import Log, MyValiator
 from ui import login
+from app import Config
 
 
 class LoginDialog(QtWidgets.QDialog,login.Ui_loginWin,OpenAnimation):
@@ -12,10 +13,14 @@ class LoginDialog(QtWidgets.QDialog,login.Ui_loginWin,OpenAnimation):
     def __init__(self, parent=None):
         super(LoginDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setDuration(1000)#设置淡入淡出
+        self.initWin()
         self.initDatabase()
-        self.connectToListener()
 
+    def initWin(self):
+        self.setDuration(1000)#设置淡入淡出
+        MyValiator.Valida2StrNum(self,self.loginAccount)
+        #MyValiator.Valida2StrNum(self,self.loginPwd)
+        self.connectToListener()
 
     def connectToListener(self):
         self.login_btn.pressed.connect(self.btnListener)
@@ -23,15 +28,13 @@ class LoginDialog(QtWidgets.QDialog,login.Ui_loginWin,OpenAnimation):
     def btnListener(self):
         if self.loginAccount.text() != "" and  self.loginPwd.text() != "":
             user={}
-            user['JID'] = self.loginAccount.text()+"@192.168.123.230/S1mple"
+            user['JID'] ="{}@{}/{}".format(self.loginAccount.text(),Config._host,Config._resourceName)
             user['PWD'] = self.loginPwd.text()
             self.signal2Core.emit(user)
             self.login_btn.setDisabled(True)
         else:
             QtWidgets.QMessageBox.information(self, '登陆错误', '账号密码不能为空！请输入！')
 
-    def checkBoxListener(self):
-        pass
     def initDatabase(self):
         Log.info('初始化数据库', 'Start')
         self.database = QtSql.QSqlDatabase.addDatabase('QSQLITE')
@@ -60,12 +63,12 @@ class LoginDialog(QtWidgets.QDialog,login.Ui_loginWin,OpenAnimation):
             self.database.close()
             self.close()
         elif flag == 0:
-            self.login_btn.setDisabled(True)
             QtWidgets.QMessageBox.information(self,'登陆错误', '密码或账号错误！请重新登陆！')
+            self.login_btn.setEnabled(True)
 
     def savePwdAndAutoLogin(self):
         user = {}
-        user['JID'] = self.loginAccount.text() + "@192.168.123.230/S1mple"
+        user['JID'] = '{}@{}'.format(self.loginAccount.text(),Config._host)
         user['PWD'] = self.loginPwd.text()
         insert_sql = "insert or replace into  user(account,pwd,is_check,last_time) values(?,?,?,datetime('now', 'localtime'));"  # 插入或更新(数据已存在)数据
         query = QSqlQuery()

@@ -40,32 +40,25 @@ class FriendsList(QObject):
     def chat2Friend(self,data):
         self._chat2Friend_signal.emit(data)
 
-    def req_avatar_callback(self,friend,task):
-        result = task.result()#result为 <AbstractAvatarDescriptor> 对象的列表集合
-        if not result:
-            self.save_avatar_callback(friend,task=None)
-        else:
-            save_task = ensure_future(result[0].get_image_bytes())  # get_image_bytes()为协程,result[0]为最新的图片
-            save_task.add_done_callback(partial(self.save_avatar_callback, friend))
-
-
-    def save_avatar_callback(self,friend,task):
+    async def req_avatar(self,friend,task):
         avatar_path = None
         if not task:
             pass
         else:
-            bin_data = task.result()
-            path_dir = os.path.join(app.BASE_DIR, 'avatar',self.core.jid.localpart)
-            if not os.path.exists(path_dir):
-                os.mkdir(path_dir)
-            avatar_path  = os.path.join(path_dir,'{}.jpg'.format(friend['jid']))
-            FileUtils.savaToPng(avatar_path,bin_data)
+            bin_data = await ensure_future(task[0].get_image_bytes())  # get_image_bytes()为协程,result[0]为最新的图片
+            avatar_path = os.path.join(app.getAvatarRootPath( self.core.jid.localpart), '{}.jpg'.format(friend['jid']))
+            FileUtils.savaToPng(avatar_path, bin_data)
         friend['avatar_path'] = avatar_path
         self.mWin.loadData(friend)
 
+    def save_avatar_callback(self,friend,task):
+        if not task:
+            pass
+        else:
+            bin_data = task.result()
+
+
     async def getInfo(self):
-        tasks=[]
-        friend_List = None
         _user = Users('http://{}:{}'.format(Config._host, Config._restPort), Config._restPort_secret)
         try:
             '''
@@ -76,11 +69,10 @@ class FriendsList(QObject):
             del _user #清除user，避免服务器生成过多的连接导致服务器连接池溢出
             print(friend_List)
             for friend in friend_List['rosterItem']:
-                task = get_event_loop().create_task(
+                # task执行后返回 <AbstractAvatarDescriptor> 对象
+                task = await get_event_loop().create_task(
                     self.avatar_server.get_avatar_metadata(JID.fromstr(friend['jid']), require_fresh=True,
                                                            disable_pep=False))
-                task.add_done_callback(partial(self.req_avatar_callback, friend))
-                tasks.append(task)
-            await asyncio.gather(*tasks)
+                await ensure_future(self.req_avatar(friend,task))
         except InvalidResponseException:
             Log.info("RestAPi","获取好友列表失败")

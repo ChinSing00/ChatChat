@@ -16,6 +16,7 @@
     <file>images/mian_bg4.jpg</file>
   </qresource>
   <qresource prefix="src">
+    <file>icon/表情.png</file>
     <file>icon/关闭.svg</file>
     <file>icon/拒绝.svg</file>
     <file>icon/列表.svg</file>
