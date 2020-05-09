@@ -4,6 +4,9 @@ from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSignal, QObject
 from aiosasl import AuthenticationFailure, SASLError
 
+from app import cache
+from app.modules import Muc
+from app.modules.Muc import MucChat
 from utils import Log
 from app.modules.P2P import Chat
 from app.modules.Main import FriendsList
@@ -19,16 +22,23 @@ class core(QObject):
 
     async def run(self):
         futures = []
-        Log.info("模块加载", "正在加载...")
-        flist = FriendsList()
-        chat = Chat()
-        flist._chat2Friend_signal.connect(chat._recvChat_Signal.emit)
+        flist , p2p , muc  = FriendsList(), Chat(),MucChat()
 
+        handerller = cache.ConversationHandller()
+        #接收好友、群组信息
+        handerller._Sign_P2P.connect(p2p.on_chatwith)
+        handerller._Sign_Muc.connect(muc.on_chatwith)
+        #发送好友、群组信息
+        flist._chat2Friend_signal.connect(handerller.on_chatwith_friend)
+        flist._chat2Room_signal.connect(handerller.on_chatwith_room)
         async with self.client.connected() as stream:
+            Log.info("模块加载", "正在加载...")
+            futures.append(asyncio.ensure_future(handerller.setup(self)))
             futures.append(asyncio.ensure_future(flist.setup(self)))
-            futures.append(asyncio.ensure_future(chat.setup(self)))
+            futures.append(asyncio.ensure_future(p2p.setup(self)))
+            futures.append(asyncio.ensure_future(muc.setup(self)))
             await asyncio.gather(*futures)#并发运行序列中的可等待对象
-
+            Log.info("模块加载", "正在加载完成")
 
     def start(self, user):
         Log.info('开始登陆', user)

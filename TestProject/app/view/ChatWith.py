@@ -1,23 +1,23 @@
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import pyqtSignal
+from aioxmpp import JID
 
 from ui import chatroom
 from utils import TimeUtils
 
 
-class PersonalChatWin(QtWidgets.QWidget,chatroom.Ui_chat_win):
+class ChatWin(QtWidgets.QWidget,chatroom.Ui_chat_win):
     _sendMsg2Friend = pyqtSignal(dict)
-    _closeSignal = pyqtSignal(dict)
+    _closeSignal = pyqtSignal(JID)
     def __init__(self,jid,parent=None):
-        super(PersonalChatWin, self).__init__(parent)
-        self.  friend_jid = jid
+        super(ChatWin, self).__init__(parent)
+        self.friend_jid = jid
         self.setupUi(self)
         self.initWin()
 
     def initWin(self):
         self.setWindowTitle(str(self.friend_jid))
         self.connectToListener()
-        self.show()
 
     def connectToListener(self):
         self.sendmsg.pressed.connect(lambda :self.btnListener(self.sendmsg))
@@ -30,7 +30,7 @@ class PersonalChatWin(QtWidgets.QWidget,chatroom.Ui_chat_win):
         btnName = sender.objectName()
         data = {'JID':self.friend_jid,'action':btnName}
         user_icon = "D:\CodeSave\py\ChatChat\TestProject\src\images\CustomerService.png"
-        ss = '''<a>({}):</a><a>{}</a>'''
+        ss = '''<a>({})自己:</a><a>{}</a>'''
         if btnName == 'sendmsg':
             if self.inputWin.toPlainText() != '':
                 data['msg'] = str(self.inputWin.toPlainText())
@@ -45,9 +45,7 @@ class PersonalChatWin(QtWidgets.QWidget,chatroom.Ui_chat_win):
         elif btnName == 'sendimg':
             pass
 
-    def checkBoxListener(self):
-        pass
-
-    def close(self):
+    def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
         self._closeSignal.emit(self.friend_jid)
-        super().close()
+        super().closeEvent(a0)
+

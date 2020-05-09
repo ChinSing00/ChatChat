@@ -7,11 +7,13 @@ def getAvatarRootPath(localpart):
     if not os.path.exists(path_dir):
         os.mkdir(path_dir)
     return  path_dir
+
 class Config():
     _host = '192.168.123.230'
     _restPort = '9090'
     _restPort_secret = 'dyMW0FcWB3GH9Rmo'
     _resourceName = 'simple'
+    _mucService = 'conference.'+_host
 
 class AppContext():
     pass

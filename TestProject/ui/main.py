@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(294, 568)
+        MainWindow.resize(314, 568)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(21)
@@ -263,7 +263,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_5.setSpacing(0)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.room_list = QtWidgets.QListView(self.tab)
+        self.room_list = QtWidgets.QListWidget(self.tab)
         self.room_list.setObjectName("room_list")
         self.verticalLayout_5.addWidget(self.room_list)
         self.tabWidget.addTab(self.tab, "")
@@ -273,7 +273,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.win_container)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

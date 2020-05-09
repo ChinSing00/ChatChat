@@ -1,18 +1,26 @@
 from PyQt5.QtCore import QSize
+from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtWidgets import QWidget, QTreeWidgetItem
 
 from app import cache
-from app.view.ui_item import Ui_Item
+from ui.ui_item import Ui_Form
 from ui import ui_item
 
-class Child_Item(QWidget, Ui_Item):
+class Child_Item(QWidget, Ui_Form):
 
-    def __init__(self, parent = None, userhead = "", name = "", mood = "", times = "", which = 0):
+    def __init__(self, parent = None,user=''):
         # print(type(parent))
+        subscriptionType = ['']
         super(Child_Item, self).__init__(parent)
-        self.data = None
-        self.setupUi(self, userhead, name, mood, times, which)
-
+        self.data = user
+        self.setupUi(self)
+        userhead = user['avatar_path']
+        name = (user['nickname'] if 'nickname' in user and user['nickname'] else user['jid'])
+        usericon = QPixmap.fromImage(QImage(userhead)) if userhead else QPixmap(":src\images\CustomerService.png")
+        self.userLabel.setScaledContents(True)
+        self.userLabel.setPixmap(usericon)
+        self.nameLabel.setText( name)
+        # self.moodLabel.setText( mood)
 
     @property
     def getData(self):
@@ -36,7 +44,7 @@ class User_Item(QTreeWidgetItem):
 
     def setUsers(self, user = None):
         childItem = QTreeWidgetItem(self)
-        childWidget = Child_Item(None, user['avatar_path'], (user['nickname'] if 'nickname' in user and user['nickname'] else user['jid'] ), mood="", times='', which = 0)
+        childWidget = Child_Item(None,user)
         childWidget.data =  user
         self.treeWidget().setItemWidget(childItem, 0, childWidget)
 

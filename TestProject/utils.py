@@ -3,10 +3,13 @@ import base64
 import os, sys
 import time
 
+import aioxmpp
 from PyQt5 import QtSql
 from PyQt5.QtCore import Qt, QSize, QRegExp
 from PyQt5.QtGui import QPixmap, QImage, QRegExpValidator
 from PyQt5.QtWidgets import  QLineEdit
+
+import app
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(BASE_DIR)
@@ -93,6 +96,7 @@ class MyValiator():
         validator = QRegExpValidator(widget)
         validator.setRegExp(reg)
         valid_to.setValidator(validator)
+
 
 
 if __name__ == '__main__':

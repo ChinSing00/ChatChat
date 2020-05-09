@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>294</width>
+    <width>314</width>
     <height>568</height>
    </rect>
   </property>
@@ -416,7 +416,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -565,7 +565,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QListView" name="room_list"/>
+         <widget class="QListWidget" name="room_list"/>
         </item>
        </layout>
       </widget>

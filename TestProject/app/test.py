@@ -77,7 +77,7 @@ class window(QWidget):
         ti = TrayIcon(self)
         ti.show()
 
-from app.view.PersonalChat import PersonalChatWin
+from app.view.ChatWith import PersonalChatWin
 class win1(PersonalChatWin):
     def __init__(self,paren=None):
         super(win1,self).__init__(paren)
