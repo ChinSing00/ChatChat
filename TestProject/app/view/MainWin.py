@@ -3,12 +3,13 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import pyqtSignal, QSize
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import QMainWindow, QListWidgetItem
+from ofrestapi import Muc
 from quamash import QApplication
 
 import utils
-from app import cache
+from app import cache, Config
 from app.view.Animation import OpenAnimation
-from app.view.FriendItem import User_Item
+from app.view.FriendItem import User_Item, Child_Item
 from app.view.RoomItem import Room_Item
 from ui import main
 from utils import Log
@@ -27,6 +28,7 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
         self.initArrow()
         self.friends_data = {}
         self.rooms_data = {}
+        self.templist = {}
 
         desktop = QApplication.desktop()
         x = (desktop.width() - self.frameSize().width()) - 20
@@ -58,18 +60,23 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
         self._chat2Room_signal.emit(item.listWidget().itemWidget(item).data)
 
     def onHistoryClicked(self,item):
-        pass
-
+        entity = item.listWidget().itemWidget(item)
+        if isinstance(entity,Child_Item):
+            self._chat2Friend_signal.emit(entity.data)
+        elif isinstance(entity,Room_Item):
+            self._chat2Room_signal.emit(entity.data)
 
     #加载好友，头像等数据
     def loadData(self,item):
         # Log.info("加载好友数据列：",item)
         group = item['groups'][0]
+        self.templist[item['jid']] = item
         if not group in self.friends_data:
             item_list = User_Item(self.chat_list,group)
             self.friends_data[group] = item_list
         user = self.friends_data[group]
         user.setUsers(item)
+
         cache.user_items.append(user)  # 把该节点保存到数组用(方便下次启动快速显示)
 
     def loadRoom(self,room_data):
@@ -79,8 +86,25 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
         widget = Room_Item(room_data=room_data)
         self.room_list.setItemWidget(item,widget)
 
-    def loadHistoryChat(self,entity):
-        pass
+    def loadHistoryChat(self,entityData):
+        item = QListWidgetItem()
+        self.history_list.addItem(item)
+        item.setSizeHint(QSize(270, 60))
+        friend = '@{}'.format(Config._host)
+        room = '@{}'.format(Config._mucService)
+        widget =None
+        if entityData["entity_jid"].endswith(friend):
+            if entityData["entity_jid"] in self.templist:
+                user = self.templist[entityData["entity_jid"]]
+                Log.info("++++++++++++++", type(user))
+                widget =Child_Item(user=user)
+        elif entityData["entity_jid"].endswith(room):
+            roomRestApi = Muc('http://{}:{}'.format(Config._host, Config._restPort), Config._restPort_secret)
+            data =  roomRestApi.get_room(entityData["entity_jid"].replace(room,''))
+            widget = Room_Item(room_data=data)
+        else:
+            return
+        self.history_list.setItemWidget(item, widget)
 
     def initArrow(self):
         # 初始化分组arrow图标

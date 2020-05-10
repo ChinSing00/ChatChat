@@ -2,7 +2,9 @@ import asyncio
 from functools import partial
 
 import aioxmpp
+from PyQt5 import QtSql
 from PyQt5.QtCore import pyqtSignal, QObject
+from PyQt5.QtSql import QSqlQuery
 from aioxmpp import JID
 from aioxmpp.im.p2p import Conversation, Member
 
@@ -60,7 +62,7 @@ class Chat(QObject):
             Log.info("新开窗口",jid)
             win = self.getWin(conv)
             self.conversationList[jid]['conversation'].on_message.connect(partial(self.on_message, self.conversationList[jid]['conversation']))
-        # win = self.conversationList[jid]['win']
+        win = self.conversationList[jid]['win']
         win.show()
 
     def getWin(self,conv):
@@ -76,3 +78,13 @@ class Chat(QObject):
             data['conversation'] = conv
             self.conversationList[mFlag] = data
         return win
+
+    def initDatabase(self):
+        self.database = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        self.database.setDatabaseName('data.db')
+        if not self.database.isOpen():
+            self.database.open()
+
+    def insertMsg(self):
+        query = QSqlQuery()
+        query.prepare()

@@ -1,4 +1,5 @@
 import aioxmpp
+from PyQt5 import QtSql
 from aioxmpp import im, muc, structs, JID
 from aioxmpp.im.p2p import Conversation
 
@@ -11,6 +12,17 @@ from utils import Log
 globalPos = QPoint(0, 0)
 item_icon = None
 user_items = []
+
+
+def Singleton(cls):
+    _instance = {}
+
+    def _singleton(*args, **kargs):
+        if cls not in _instance:
+            _instance[cls] = cls(*args, **kargs)
+        return _instance[cls]
+
+    return _singleton
 
 class ConversationHandller(QObject):
     _Sign_P2P = pyqtSignal(Conversation)
@@ -75,3 +87,17 @@ class ConversationHandller(QObject):
     #     )
     #     msgData.body[None] = msg
     #     room.send_message(msgData)
+@Singleton
+class Database():
+    def __int__(self):
+        self.database = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        self.database.setDatabaseName('data.db')
+        self.database.open()
+
+    def getDatabase(self):
+        if not self.database.isOpen():
+            self.database.open()
+        return self.database
+
+    def close(self):
+        self.database.close()

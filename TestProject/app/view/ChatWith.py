@@ -1,5 +1,6 @@
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtGui, QtSql
 from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtSql import QSqlQuery
 from aioxmpp import JID
 
 from ui import chatroom
@@ -36,6 +37,12 @@ class ChatWin(QtWidgets.QWidget,chatroom.Ui_chat_win):
                 data['msg'] = str(self.inputWin.toPlainText())
                 self.inputWin.setText('')
                 self.chatWin.append(ss.format(TimeUtils.getTimeWithoutDay(),data['msg']))
+                self.database = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+                self.database.setDatabaseName('data.db')
+                self.database.open()
+                query = QSqlQuery()
+                query.prepare("")
+
                 self._sendMsg2Friend.emit(data)
                 return
             else:

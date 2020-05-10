@@ -28,7 +28,7 @@ class LoginDialog(QtWidgets.QDialog,login.Ui_loginWin,OpenAnimation):
     def btnListener(self):
         if self.loginAccount.text() != "" and  self.loginPwd.text() != "":
             user={}
-            user['JID'] ="{}@{}/{}".format(self.loginAccount.text(),Config._host,Config._resourceName)
+            user['JID'] ="{}@{}".format(self.loginAccount.text(),Config._host)
             user['PWD'] = self.loginPwd.text()
             self.signal2Core.emit(user)
             self.login_btn.setDisabled(True)
@@ -41,14 +41,14 @@ class LoginDialog(QtWidgets.QDialog,login.Ui_loginWin,OpenAnimation):
         self.database.setDatabaseName('data.db')
         self.database.open()
         query = QSqlQuery()
-        query.prepare("create table if not exists user(id integer primary key autoincrement, account varchar(16), pwd varchar(32), is_check int default(0), last_time TIMESTAMP default (datetime('now', 'localtime')));")
+        query.prepare("create table if not exists user(id integer primary key autoincrement, userName varchar(64), password varchar(32), isRemember int default(0), loginTime TIMESTAMP default (datetime('now', 'localtime')));")
         if not query.exec_():
             query.lastError()
             Log.info('初始化数据库', 'Error')
         else:
             Log.info('初始化数据库', 'Seccsess')
         query.clear()
-        query.prepare('select account,pwd,is_check,MAX(last_time) from user;')
+        query.prepare('select userName,password,isRemember,MAX(loginTime) from user;')
         query.exec_()
         while query.next():
             acc,pwd ,isCheck,time= query.value(0),query.value(1),query.value(2),query.value(3)
@@ -70,7 +70,7 @@ class LoginDialog(QtWidgets.QDialog,login.Ui_loginWin,OpenAnimation):
         user = {}
         user['JID'] = '{}@{}'.format(self.loginAccount.text(),Config._host)
         user['PWD'] = self.loginPwd.text()
-        insert_sql = "insert or replace into  user(account,pwd,is_check,last_time) values(?,?,?,datetime('now', 'localtime'));"  # 插入或更新(数据已存在)数据
+        insert_sql = "insert or replace into  user(userName,password,isRemember,loginTime) values(?,?,?,datetime('now', 'localtime'));"  # 插入或更新(数据已存在)数据
         query = QSqlQuery()
         query.prepare(insert_sql)
         query.addBindValue(self.loginAccount.text())

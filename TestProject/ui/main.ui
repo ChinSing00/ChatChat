@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>314</width>
+    <width>294</width>
     <height>568</height>
    </rect>
   </property>
@@ -261,12 +261,12 @@
       <property name="flat">
        <bool>true</bool>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="5,1,12">
+      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,1,8">
        <property name="spacing">
         <number>0</number>
        </property>
        <property name="leftMargin">
-        <number>0</number>
+        <number>8</number>
        </property>
        <property name="topMargin">
         <number>0</number>
@@ -278,39 +278,12 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QToolButton" name="avatar">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>48</width>
-           <height>48</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
+        <widget class="QLabel" name="avatar">
          <property name="text">
           <string/>
          </property>
-         <property name="iconSize">
-          <size>
-           <width>48</width>
-           <height>48</height>
-          </size>
-         </property>
-         <property name="popupMode">
-          <enum>QToolButton::InstantPopup</enum>
-         </property>
-         <property name="autoRaise">
-          <bool>true</bool>
-         </property>
-         <property name="arrowType">
-          <enum>Qt::NoArrow</enum>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -373,7 +346,7 @@
             <enum>QFrame::NoFrame</enum>
            </property>
            <property name="text">
-            <string>sign</string>
+            <string>暂无</string>
            </property>
           </widget>
          </item>
@@ -416,7 +389,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>

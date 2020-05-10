@@ -46,7 +46,7 @@ class core(QObject):
         self.password = user['PWD']
         try:
             # no_verify=True大坑！，注意关闭认证；参考：https://docs.zombofant.net/aioxmpp/devel/api/public/security_layer.html
-            # 在实际程序中可能要自己定义security_layer以达到通信安全
+            # 可能要自己定义security_layer以达到通信安全
             self.client = aioxmpp.PresenceManagedClient(self.jid,aioxmpp.make_security_layer(self.password, no_verify=True),loop=self._loop)
             self.client.set_presence(aioxmpp.PresenceState(available=True,show=aioxmpp.PresenceShow.FREE_FOR_CHAT),{aioxmpp.structs.LanguageTag.fromstr('en'):'在线'})
             self.client.on_failure.connect(self.on_failure)#启动失败时操作
@@ -54,6 +54,7 @@ class core(QObject):
             self.client.on_stream_suspended.connect(self.on_internet_disconnect)#服务器链接中断时操作
             self.client.on_stream_destroyed.connect(self.on_internet_disconnect)#服务器链接失败时操作
         except Exception:
+            self._sign_login.emit(3)
             return
 
     def on_failure(self,err):
@@ -69,4 +70,5 @@ class core(QObject):
 
     def on_internet_disconnect(self,reason):
         Log.info("网络错误", reason)
+        QtWidgets.QMessageBox.question(self, '网络连接错误', '请重新登陆！')
 

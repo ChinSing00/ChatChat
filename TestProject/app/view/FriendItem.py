@@ -8,7 +8,7 @@ from ui import ui_item
 
 class Child_Item(QWidget, Ui_Form):
 
-    def __init__(self, parent = None,user=''):
+    def __init__(self, parent = None,user='',time=''):
         # print(type(parent))
         subscriptionType = ['']
         super(Child_Item, self).__init__(parent)
@@ -20,7 +20,7 @@ class Child_Item(QWidget, Ui_Form):
         self.userLabel.setScaledContents(True)
         self.userLabel.setPixmap(usericon)
         self.nameLabel.setText( name)
-        # self.moodLabel.setText( mood)
+        self.timeLabel.setText( time if time else '')
 
     @property
     def getData(self):

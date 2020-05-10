@@ -59,5 +59,5 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.nameLabel.setText(_translate("Form", "ヽoo悾絔℅o。"))
-        self.moodLabel.setText(_translate("Form", "<html><head/><body><a href=\"http://www.baidu.com\"><img src=\":/res/resources/icon_qzone.png\"/></a>发表图片</body></html>"))
+        self.moodLabel.setText(_translate("Form", "暂无"))
         self.timeLabel.setText(_translate("Form", "昨天"))

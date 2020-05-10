@@ -1,7 +1,6 @@
 MainWindow{
     padding:none;
     margin:none;
-    background: transparent url(:src/images/main_bg3.jpg)  no-repeat center center;
 }
 
 QWidget#win_container,QWidget#win_container >QWidget{
@@ -95,6 +94,12 @@ QGroupBox#top_btn_gb QPushButton:pressed {
 }
 
 /* === QTreeView === */
+QListWidget#room_list::item{
+    background-color: none;
+}
+QListWidget#room_list::item>QLabel{
+    background-color: #3CCFB8;
+}
 
 QTreeView::item:hover {
     background:  #848484;

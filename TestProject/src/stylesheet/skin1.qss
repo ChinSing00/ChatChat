@@ -54,7 +54,9 @@ QCheckBox::indicator, QRadioButton::indicator, QTreeView::indicator {
 QRadioButton::indicator {
     border-radius: 8px;
 }
-
+QListWidget#room_list::item{
+    background-color: none;
+}
 QCheckBox::indicator::checked,
 QRadioButton::indicator::checked,
 QTreeView::indicator::checked {

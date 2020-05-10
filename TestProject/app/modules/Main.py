@@ -1,7 +1,9 @@
 import asyncio
 import os
 
+from PyQt5 import QtSql
 from PyQt5.QtCore import pyqtSignal, QObject, QStringListModel
+from PyQt5.QtSql import QSqlQuery
 from PyQt5.QtWidgets import QListWidgetItem
 from ofrestapi.exception import InvalidResponseException
 
@@ -38,8 +40,8 @@ class FriendsList(QObject):
         self.core._sign_login.emit(1)#发射关闭登陆界面信号
         self.avatar_server = self._client.summon(AvatarService)#唤起头像服务
         await ensure_future(self.getFriendList())
-        await ensure_future(self.getHistoryChatList())
         await ensure_future(self.getRoomList())
+        await ensure_future(self.getHistoryChatList())
         await ensure_future(self._run())
 
     def chat2Friend(self,data):
@@ -76,7 +78,19 @@ class FriendsList(QObject):
             Log.info("RestAPi","获取好友列表失败")
 
     async def getHistoryChatList(self):
-        pass
+        self.initDatabase()
+        query = QSqlQuery()
+        sql = "select * from message where isSelf!=1 and userName='{}' GROUP BY chatWith;".format(str(self.core.jid).replace(("/"+str(self.core.jid.resource)),''))
+        print(sql)
+        query.prepare(sql)
+        query.exec_()
+        while query.next():
+            userName, isSelf, chatWith, messageFrom, messageContext, createTime = query.value(0), query.value(
+                1), query.value(2), query.value(3), query.value(4), query.value(5)
+            # print('userName={},isSelf={},chatWith={},messageFrom={},messageContext={},createTime={}\n'.format(
+            #     userName,isSelf,chatWith,messageFrom,messageContext,createTime))
+            data = {'entity_jid':chatWith,"time":createTime}
+            self.mWin.loadHistoryChat(data)
 
     '''数据格式：{'chatRooms': [{'roomName': 'test22', 'naturalName': '王企鹅', 'description': '用于群聊测试', 'subject': 'BBS', 'creationDate': 1587396444462, 'modificationDate': 1587396444479, 'maxUse
                    rs': 30, 'persistent': True, 'publicRoom': True, 'registrationEnabled': True, 'canAnyoneDiscoverJID': True, 'canOccupantsChangeSubject': True, 'canOccupantsInvite': True, 'canChangeNick
@@ -93,3 +107,16 @@ class FriendsList(QObject):
                 self.mWin.loadRoom(room)
         except Exception:
             pass
+
+    def initDatabase(self):
+        self.database = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        self.database.setDatabaseName('data.db')
+        self.database.open()
+        query = QSqlQuery()
+        query.prepare("create table if not exists message(userName varchar(64), isSelf int, chatWith varchar(64), messageFrom varchar, messageContext text,createTime TIMESTAMP default (datetime('now', 'localtime')));")
+        if not query.exec_():
+            query.lastError()
+            Log.info('读取message表失败', 'Error')
+        else:
+            Log.info('读取message', 'Seccsess')
+        del query
