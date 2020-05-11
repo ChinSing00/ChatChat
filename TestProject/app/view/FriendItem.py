@@ -1,3 +1,5 @@
+from enum import Enum
+
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPixmap, QImage, QPainter, QPainterPath
 from PyQt5.QtWidgets import QWidget, QTreeWidgetItem
@@ -25,6 +27,9 @@ class Child_Item(QWidget, Ui_Form):
         self.userLabel.setPixmap(temp)
         self.nameLabel.setText( name)
         self.timeLabel.setText( time if time else '')
+        subscriptionType = ('已删除好友','订阅','订阅者','好友')
+        if user['subscriptionType']:
+            self.moodLabel.setText(subscriptionType[user['subscriptionType']])
 
     @property
     def getData(self):

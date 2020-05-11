@@ -1,5 +1,6 @@
 import os
-from PyQt5 import QtWidgets, QtSql,Qt
+from PyQt5 import QtWidgets, QtSql, Qt, QtCore
+from PyQt5.QtGui import QCursor
 from PyQt5.QtSql import QSqlQuery
 from PyQt5.QtCore import pyqtSignal
 from app.view.Animation import OpenAnimation
@@ -17,7 +18,11 @@ class LoginDialog(QtWidgets.QDialog,login.Ui_loginWin,OpenAnimation):
         self.initDatabase()
 
     def initWin(self):
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        self.from_jid.setText('登录')
         self.setDuration(1000)#设置淡入淡出
+        self.loginAccount.setPlaceholderText("用户名")
+        self.loginPwd.setPlaceholderText("密码")
         MyValiator.Valida2StrNum(self,self.loginAccount)
         #MyValiator.Valida2StrNum(self,self.loginPwd)
         self.connectToListener()
@@ -25,7 +30,13 @@ class LoginDialog(QtWidgets.QDialog,login.Ui_loginWin,OpenAnimation):
     def connectToListener(self):
         self.login_btn.pressed.connect(self.btnListener)
         self.loginAccount.textChanged.connect(self.loginPwd.clear)
-
+        self.close_btn.clicked.connect(self.close)
+        self.minimum_btn.clicked.connect(self.showMinimized)
+        self.remeberPwd.toggled[bool].connect(self.onChecked)
+    def onChecked(self,bool):
+        if not bool:
+            self.loginAccount.clear()
+            self.loginPwd.clear()
     def btnListener(self):
         if self.loginAccount.text() != "" and  self.loginPwd.text() != "":
             user={}
@@ -87,3 +98,14 @@ class LoginDialog(QtWidgets.QDialog,login.Ui_loginWin,OpenAnimation):
             print("插入成功")
         self.signal2Core.disconnect()
 
+
+    #重写鼠标按下事件
+    def mousePressEvent(self, event):
+        self.posMouseOrigin = QCursor().pos()
+
+    #重写移动事件
+    def mouseMoveEvent(self, event):
+        posNow=  QCursor.pos()
+        posAfter = posNow - self.posMouseOrigin
+        self.move(self.pos() + posAfter)
+        self.posMouseOrigin = posNow

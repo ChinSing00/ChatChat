@@ -1,9 +1,9 @@
 import time
 
 from PyQt5 import QtWidgets, QtGui, QtSql, QtCore
-from PyQt5.QtCore import pyqtSignal, QSize
+from PyQt5.QtCore import pyqtSignal, QSize, QPoint
+from PyQt5.QtGui import QCursor
 from PyQt5.QtSql import QSqlQuery
-from PyQt5.QtWidgets import QVBoxLayout
 from aioxmpp import JID
 
 from app import Config
@@ -23,13 +23,14 @@ class ChatWin(QtWidgets.QWidget,chatroom.Ui_chat_win):
         self.initWin()
 
     def initWin(self):
-        self.setWindowTitle(str(self.jid))
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        self.from_jid.setText(str(self.jid))
         self.connectToListener()
 
     def connectToListener(self):
         self.sendmsg.pressed.connect(lambda :self.btnListener(self.sendmsg))
-        # self.emotion.pressed.connect(lambda :self.btnListener(self.emotion))
-        # self.menu.pressed.connect(lambda :self.btnListener(self.menu))
+        self.close_btn.clicked.connect(self.close)
+        self.minimum_btn.clicked.connect(self.showMinimized)
 
     def setChatInfor(self,jid):
         friend = '@{}'.format(Config._host)
@@ -39,7 +40,7 @@ class ChatWin(QtWidgets.QWidget,chatroom.Ui_chat_win):
         if jid.endswith(room):
             self.right.setAlignment(QtCore.Qt.AlignTop)
             widget = CMIWidget(jid, self.core)
-            widget.setFixedSize(QSize(180,494))
+            widget.setFixedSize(QSize(180,472))
             self.right.addWidget(widget)
 
     def btnListener(self,sender):
@@ -67,6 +68,7 @@ class ChatWin(QtWidgets.QWidget,chatroom.Ui_chat_win):
     def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
         self._closeSignal.emit(self.jid)
         super().closeEvent(a0)
+
     def getHistoryMsg(self):
         try:
             query = QSqlQuery()
@@ -122,3 +124,13 @@ class ChatWin(QtWidgets.QWidget,chatroom.Ui_chat_win):
         super().showEvent(a0)
         self.getHistoryMsg()
 
+    #重写鼠标按下事件
+    def mousePressEvent(self, event):
+        self.posMouseOrigin = QCursor().pos();
+
+    #重写移动事件
+    def mouseMoveEvent(self, event):
+        posNow=  QCursor.pos()
+        posAfter = posNow - self.posMouseOrigin;
+        self.move(self.pos() + posAfter);
+        self.posMouseOrigin = posNow;

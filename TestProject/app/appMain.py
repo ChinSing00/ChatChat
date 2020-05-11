@@ -20,7 +20,7 @@ def coreNLogin_Conn(loginWin,core):
 if __name__ == '__main__':
     app = QApplication([])
     style = StyleReader.readQssFromFile("skin.qss")
-    #app.setStyleSheet(style)#设置全局皮肤样式
+    app.setStyleSheet(style)#设置全局皮肤样式
 
     # 使用Quamash的事件循环（使aioxmpp与pyqt5的事件循环可以互通）不使用会导致登陆画面不能正常初始化\
     with quamash.QEventLoop(app) as loop:

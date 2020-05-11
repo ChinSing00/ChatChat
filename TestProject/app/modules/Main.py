@@ -13,7 +13,7 @@ import utils
 from app.view import RoomItem
 from app.view.MainWin import EDMianWin
 from utils import Log,FileUtils
-from aioxmpp import AvatarService, JID
+from aioxmpp import AvatarService, JID, RosterClient
 from asyncio import sleep, ensure_future, get_event_loop
 from ofrestapi import Users, Muc
 from app import Config
@@ -42,7 +42,10 @@ class FriendsList(QObject):
         self.mWin.show()
         self.core._sign_login.emit(1)#发射关闭登陆界面信号
         self.avatar_server = self._client.summon(AvatarService)#唤起头像服务
-
+        self.roster = self._client.summon(RosterClient)
+        # roster.on_subscribe.connect(self.A1)
+        # roster.on_subscribed.connect(self.A2)
+        # roster.subscribe(JID.fromstr("qq2255@{}".format(Config._host)))
         await ensure_future(self.getFriendList())
         await ensure_future(self.getRoomList())
         await ensure_future(self.getHistoryChatList())

@@ -3,8 +3,9 @@ import aioxmpp
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import pyqtSignal, QObject
 from aiosasl import AuthenticationFailure, SASLError
+from aioxmpp import JID
 
-from app import cache
+from app import cache, Config
 from app.modules import Muc
 from app.modules.Muc import MucChat
 from utils import Log

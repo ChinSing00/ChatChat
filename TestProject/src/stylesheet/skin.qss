@@ -1,203 +1,24 @@
-MainWindow{
-    padding:none;
-    margin:none;
+QWidget{
+    opacity:0;
 }
-QWidget:window {
-    background: #222222;
-    color: #BBBBBB;
-    font-family: "Segoe UI";
-}
-QStackedWidget, QLabel, QPushButton, QRadioButton, QCheckBox,
-QGroupBox, QStatusBar, QToolButton, QComboBox, QDialog {
-    background-color: none;
-    font-family: "Segoe UI";
-}
-
-
-
-QWidget#win_container,QWidget#win_container{
-    /*border-radius: 5px;*/
-    background:#4BE0A7;
-    border:none;
-    margin:0;
-}
-
-QTabWidget::pane { /* The tab widget frame */
-}
-QTabWidget::tab-bar {
-    left: 0px; /* move to the right by 5px */
-}
-QTabBar, QTabWidget {
-    /*background-color: #03A9F4;*/
-}
-QTabWidget QFrame {
-    padding: 0px;
-    background:#4BE0A7;
-}
-QTabBar::tab {
-     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
-                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
-     /*border: 1px solid darkkhaki;*/
-     /*border-bottom-color: #C2C7CB; /* same as the pane color */
-     border-top-left-radius: 1px;
-     border-top-right-radius: 10px;
-     min-width: 14ex;
-     min-height:8ex;
-     padding: 0px;
- }
-/*QTabBar::tab:selected, QTabBar::tab:hover {
-    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                stop: 0 #fafafa, stop: 0.4 #f4f4f4,
-                                stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
-}*/
-QTabBar::tab:selected, QTabBar::tab:hover {
-    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                stop: 0 #fafafa, stop: 0.4 #f4f4f4,
-                                stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
-}
-
-QTabBar::tab:selected {
-    border-color: #9B9B9B;
-    border-bottom-color: #C2C7CB; /* same as pane color */
-}
-
-QTabBar::tab:!selected {
-    margin-top: 2px; /* make non-selected tabs look smaller */
-}
-
-
-/* Nice Windows-XP-style password character. */
-QLineEdit[echoMode="2"] {
-    lineedit-password-character: 9679;
-}
-
-/*已修改——Start*/
-QToolButton#avatar{
-    border:groove gray;
-    border-width: 0.1px;
-    border-style: solid;
-    border-radius:20px;
-    max-width:20ex;
-    max-height:20ex;
-    margin:10px;
-    background: transparent url(:src/images/CustomerService.png)  no-repeat center center ;
-}
-QFrame#top_btn_gb> QPushButton {
-    background-color:#4BE0A7;
-    border-width: 0px;
-    border-style: solid;
-    border-radius: 0px;
-    min-width: 9ex;
-    min-height: 2ex;
-}
-
-QGroupBox#top_btn_gb >QPushButton:hover{
-    background-color:#FF9800;
-    opacity:0.01;
-}
-
-QGroupBox#top_btn_gb QPushButton:pressed {
-    padding-left: 3px;
-    padding-top: 3px;
-    background-color: #d0d67c;
-    opacity:0.1;
-}
-
-
-/* === QTreeView === */
-QListWidget>QWidget{
-    background-color: none;
-    background: none;
-}
-QListWidget#room_list::item::item{
-    background-color: none;
-}
-QListWidget#room_list::item{
-    background: none;
-}
-
-QTreeView::item:hover {
-    background:  #848484;
-    color:  #d0d67c;
-}
-
-QTreeView::item:selected {
-    background:  #E61F6B;
-}
-
-QTreeView::branch {
-    background:  #00CC99;
-    color:  #d0d67c;
-}
-
-QTreeView::branch:has-siblings:adjoins-item {
-
-}
-
-QTreeView::branch:has-siblings:!adjoins-item {
-
-}
-
-QTreeView::branch:closed:has-children:has-siblings {
-
-}
-
-QTreeView::branch:has-children:!has-siblings:closed {
-
-}
-
-QTreeView::branch:!has-children:!has-siblings:adjoins-item {
-
-}
-
-QTreeView::branch:open:has-children:has-siblings {
-
-}
-
-QTreeView::branch:open:has-children:!has-siblings {
-
-}
-/*已修改——end*/
-
-QPushButton {
-    background-color: palegoldenrod;
+QDialog,QMainWindow,QWidget#chat_win{
+    background-color: #CDA57C;
     border-width: 2px;
-    border-color: darkkhaki;
+    border-color: #8B7054;
     border-style: solid;
-    border-radius: 5;
-    padding: 3px;
-    min-width: 9ex;
-    min-height: 2.5ex;
+    border-radius: 8;
+}
+QWidget#win_container{
+    margin:10px;
 }
 
-QPushButton:hover {
-   background-color: khaki;
+QTabWidget >*{
+     background-color: #CDA57C;
+     margin:2px;
+     border-width: 2px;
+     border-color: #8B7054;
+     border-style: solid;
 }
-
-/* Increase the padding, so the text is shifted when the button is
-   pressed. */
-QPushButton:pressed {
-    padding-left: 5px;
-    padding-top: 5px;
-    background-color: #d0d67c;
+QListWidget,QTreeWidget{
+    border:none;
 }
-
-/* Mark mandatory fields with a brownish color.
-.mandatory {
-    color: brown;
-}*/
-
-
-/*QStackedWidget, QComboBox, QLineEdit, QSpinBox, QTextEdit, QListView, QWebView, QTreeView, QHeaderView {
-    background-color: cornsilk;
-    selection-color: #0a214c;
-    selection-background-color: #C19A6B;
-}*/
-
-
-/* Nice to have the background color change when hovered. */
-QRadioButton:hover, QCheckBox:hover {
-    background-color: wheat;
-}
-

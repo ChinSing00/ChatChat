@@ -5,7 +5,7 @@ from datetime import datetime
 
 from PyQt5 import QtWidgets, QtCore, QtSql
 from PyQt5.QtCore import pyqtSignal, QSize
-from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtGui import QPixmap, QIcon, QCursor
 from PyQt5.QtWidgets import QMainWindow, QListWidgetItem
 from ofrestapi import Muc
 from quamash import QApplication
@@ -13,6 +13,7 @@ from quamash import QApplication
 import utils
 from app import cache, Config
 from app.view.Animation import OpenAnimation
+from app.view.FriendAddView import AddFirendWin
 from app.view.FriendItem import User_Item, Child_Item
 from app.view.RoomItem import Room_Item
 from ui import main
@@ -42,6 +43,7 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
         self.setDuration(1000)
         self.connectToListener()
 
+
     def connectToListener(self):
         self.close_btn.clicked.connect(self.close)
         self.minimum_btn.clicked.connect(self.showMinimized)
@@ -49,6 +51,11 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
         self.chat_list.doubleClicked.connect(self.onTreeListClicked)
         self.room_list.itemDoubleClicked.connect(self.onRoomListClicked)
         self.history_list.itemDoubleClicked.connect(self.onHistoryClicked)
+        self.add_btn.clicked.connect(self.showAddWin)
+
+    def showAddWin(self):
+        win  = AddFirendWin()
+        win.open()
 
     #双击好友项打开聊天窗口
     def onTreeListClicked(self,index):
@@ -79,7 +86,9 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
 
     #加载好友，头像等数据
     def loadData(self,item):
-        # Log.info("加载好友数据列：",item)
+        Log.info("加载好友数据列：",item)
+        if not item['groups']:
+            item['groups'] = ['未命名分组']
         group = item['groups'][0]
         self.templist[item['jid']] = item
         if not group in self.friends_data:
@@ -163,17 +172,14 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
             #     event.ignore()
     #重写鼠标按下事件
     def mousePressEvent(self, event):
-        self.startPos = event.globalPos()  # 记录鼠标点击的位置
-        return QMainWindow().mousePressEvent(event)
-    #重写鼠标释放事件
-    def mouseReleaseEvent(self, event):
-        return QMainWindow().mouseReleaseEvent(event)
+        self.posMouseOrigin = QCursor().pos()
+
     #重写移动事件
     def mouseMoveEvent(self, event):
-        movePos = event.globalPos() - self.startPos
-        self.startPos = event.globalPos()
-        self.move(self.pos() + movePos)
-        return QMainWindow().mouseMoveEvent(event)
+        posNow=  QCursor.pos()
+        posAfter = posNow - self.posMouseOrigin
+        self.move(self.pos() + posAfter)
+        self.posMouseOrigin = posNow
 
     def setClient(self,client):
         self._client = client
