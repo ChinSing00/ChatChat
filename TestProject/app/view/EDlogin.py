@@ -24,6 +24,7 @@ class LoginDialog(QtWidgets.QDialog,login.Ui_loginWin,OpenAnimation):
 
     def connectToListener(self):
         self.login_btn.pressed.connect(self.btnListener)
+        self.loginAccount.textChanged.connect(self.loginPwd.clear)
 
     def btnListener(self):
         if self.loginAccount.text() != "" and  self.loginPwd.text() != "":

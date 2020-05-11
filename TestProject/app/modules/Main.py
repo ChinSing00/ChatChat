@@ -2,12 +2,14 @@ import asyncio
 import os
 
 from PyQt5 import QtSql
-from PyQt5.QtCore import pyqtSignal, QObject, QStringListModel
+from PyQt5.QtCore import pyqtSignal, QObject, QStringListModel, QSize
+from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtSql import QSqlQuery
 from PyQt5.QtWidgets import QListWidgetItem
 from ofrestapi.exception import InvalidResponseException
 
 import app
+import utils
 from app.view import RoomItem
 from app.view.MainWin import EDMianWin
 from utils import Log,FileUtils
@@ -33,12 +35,14 @@ class FriendsList(QObject):
     async def setup(self,core):
         self.core = core
         self._client = core.client
+        self.mWin.setClient(self._client)
         self.mWin.user_nane.setText(core.jid.localpart)
         self.mWin._chat2Friend_signal.connect(self.chat2Friend)
         self.mWin._chat2Room_signal.connect(self.chat2Room)
         self.mWin.show()
         self.core._sign_login.emit(1)#发射关闭登陆界面信号
         self.avatar_server = self._client.summon(AvatarService)#唤起头像服务
+
         await ensure_future(self.getFriendList())
         await ensure_future(self.getRoomList())
         await ensure_future(self.getHistoryChatList())
@@ -60,6 +64,18 @@ class FriendsList(QObject):
             '''
             friend_List = _user.get_user_roster(self.core.jid.localpart)#只需要用户名就行，不需要加域名
             del _user #清除user，避免服务器生成过多的连接导致服务器连接池溢出
+            metadata = await self.avatar_server.get_avatar_metadata(self.core.jid)
+            if metadata:
+                picture = await asyncio.ensure_future(metadata[0].get_image_bytes())
+                picPath = os.path.join(app.getAvatarRootPath(self.core.jid.localpart),'{}.jpg'.format(str(self.core.jid)))
+                if not os.path.exists(picPath):
+                    FileUtils.savaToPng(picPath, picture)
+            usericon = QPixmap.fromImage(QImage(picPath)) if os.path.exists(picPath) else QPixmap(":src\images\CustomerService.png")
+            self.mWin.avatar.setBaseSize(QSize(40,40))
+            temp = utils.PixmapToRound(self.mWin.avatar, usericon)
+            self.mWin.avatar.setScaledContents(True)
+            self.mWin.avatar.setPixmap(temp)
+
             for friend in friend_List['rosterItem']:
                 # task执行后返回 <AbstractAvatarDescriptor> 对象
                 task = await get_event_loop().create_task(
@@ -81,14 +97,11 @@ class FriendsList(QObject):
         self.initDatabase()
         query = QSqlQuery()
         sql = "select * from message where isSelf!=1 and userName='{}' GROUP BY chatWith;".format(str(self.core.jid).replace(("/"+str(self.core.jid.resource)),''))
-        print(sql)
         query.prepare(sql)
         query.exec_()
         while query.next():
             userName, isSelf, chatWith, messageFrom, messageContext, createTime = query.value(0), query.value(
                 1), query.value(2), query.value(3), query.value(4), query.value(5)
-            # print('userName={},isSelf={},chatWith={},messageFrom={},messageContext={},createTime={}\n'.format(
-            #     userName,isSelf,chatWith,messageFrom,messageContext,createTime))
             data = {'entity_jid':chatWith,"time":createTime}
             self.mWin.loadHistoryChat(data)
 
@@ -113,7 +126,7 @@ class FriendsList(QObject):
         self.database.setDatabaseName('data.db')
         self.database.open()
         query = QSqlQuery()
-        query.prepare("create table if not exists message(userName varchar(64), isSelf int, chatWith varchar(64), messageFrom varchar, messageContext text,createTime TIMESTAMP default (datetime('now', 'localtime')));")
+        query.prepare("create table if not exists message(userName varchar(64), isSelf int, chatWith varchar(64), messageFrom varchar(64), messageContext text,createTime TIMESTAMP default (datetime('now', 'localtime')));")
         if not query.exec_():
             query.lastError()
             Log.info('读取message表失败', 'Error')

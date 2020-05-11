@@ -2,13 +2,24 @@ MainWindow{
     padding:none;
     margin:none;
 }
+QWidget:window {
+    background: #222222;
+    color: #BBBBBB;
+    font-family: "Segoe UI";
+}
+QStackedWidget, QLabel, QPushButton, QRadioButton, QCheckBox,
+QGroupBox, QStatusBar, QToolButton, QComboBox, QDialog {
+    background-color: none;
+    font-family: "Segoe UI";
+}
 
-QWidget#win_container,QWidget#win_container >QWidget{
+
+
+QWidget#win_container,QWidget#win_container{
     /*border-radius: 5px;*/
     background:#4BE0A7;
     border:none;
     margin:0;
-
 }
 
 QTabWidget::pane { /* The tab widget frame */
@@ -66,13 +77,13 @@ QToolButton#avatar{
     border:groove gray;
     border-width: 0.1px;
     border-style: solid;
-    border-radius:24.1px;
+    border-radius:20px;
     max-width:20ex;
     max-height:20ex;
     margin:10px;
     background: transparent url(:src/images/CustomerService.png)  no-repeat center center ;
 }
-QGroupBox#top_btn_gb> QPushButton {
+QFrame#top_btn_gb> QPushButton {
     background-color:#4BE0A7;
     border-width: 0px;
     border-style: solid;
@@ -93,12 +104,17 @@ QGroupBox#top_btn_gb QPushButton:pressed {
     opacity:0.1;
 }
 
+
 /* === QTreeView === */
-QListWidget#room_list::item{
+QListWidget>QWidget{
+    background-color: none;
+    background: none;
+}
+QListWidget#room_list::item::item{
     background-color: none;
 }
-QListWidget#room_list::item>QLabel{
-    background-color: #3CCFB8;
+QListWidget#room_list::item{
+    background: none;
 }
 
 QTreeView::item:hover {

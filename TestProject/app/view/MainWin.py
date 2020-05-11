@@ -1,5 +1,9 @@
+import asyncio
 import os
-from PyQt5 import QtWidgets, QtCore
+import time
+from datetime import datetime
+
+from PyQt5 import QtWidgets, QtCore, QtSql
 from PyQt5.QtCore import pyqtSignal, QSize
 from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtWidgets import QMainWindow, QListWidgetItem
@@ -29,7 +33,7 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
         self.friends_data = {}
         self.rooms_data = {}
         self.templist = {}
-
+        self.history_datalist = {}
         desktop = QApplication.desktop()
         x = (desktop.width() - self.frameSize().width()) - 20
         y = (desktop.height() - self.frameSize().height()) // 2 - 50
@@ -51,20 +55,27 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
         item = self.chat_list.currentItem() #获取组
         if not isinstance(item,User_Item):
             friend_item = item.treeWidget().itemWidget(item,0) #获取到item下的widget
-            print(friend_item.data)
+            # print(friend_item.data)
             self._chat2Friend_signal.emit(friend_item.data)
+            self.loadHistoryChat({'entity_jid': friend_item.data['jid'], 'time': datetime.now()})
 
     def onRoomListClicked(self,item):
         # print(item)
         # print(item.listWidget().itemWidget(item))
-        self._chat2Room_signal.emit(item.listWidget().itemWidget(item).data)
+        data = item.listWidget().itemWidget(item).data
+        self._chat2Room_signal.emit(data)
+        jid = data['roomName'] + '@' + Config._mucService
+        self.loadHistoryChat({'entity_jid': jid, 'time': datetime.now()})
 
     def onHistoryClicked(self,item):
         entity = item.listWidget().itemWidget(item)
+        jid = None
         if isinstance(entity,Child_Item):
             self._chat2Friend_signal.emit(entity.data)
+            jid = entity.data['jid']
         elif isinstance(entity,Room_Item):
             self._chat2Room_signal.emit(entity.data)
+
 
     #加载好友，头像等数据
     def loadData(self,item):
@@ -81,22 +92,24 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
 
     def loadRoom(self,room_data):
         item = QListWidgetItem()
-        item.setSizeHint(QSize(270,60))
+        item.setSizeHint(QSize(270,65))
         self.room_list.addItem(item)
         widget = Room_Item(room_data=room_data)
         self.room_list.setItemWidget(item,widget)
 
     def loadHistoryChat(self,entityData):
+        if entityData['entity_jid'] in self.history_datalist:
+            return
         item = QListWidgetItem()
         self.history_list.addItem(item)
-        item.setSizeHint(QSize(270, 60))
+        item.setSizeHint(QSize(270, 65))
         friend = '@{}'.format(Config._host)
         room = '@{}'.format(Config._mucService)
         widget =None
         if entityData["entity_jid"].endswith(friend):
             if entityData["entity_jid"] in self.templist:
+                item.setSizeHint(QSize(270, 50))
                 user = self.templist[entityData["entity_jid"]]
-                Log.info("++++++++++++++", type(user))
                 widget =Child_Item(user=user)
         elif entityData["entity_jid"].endswith(room):
             roomRestApi = Muc('http://{}:{}'.format(Config._host, Config._restPort), Config._restPort_secret)
@@ -104,6 +117,7 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
             widget = Room_Item(room_data=data)
         else:
             return
+        self.history_datalist[entityData["entity_jid"]] = widget
         self.history_list.setItemWidget(item, widget)
 
     def initArrow(self):
@@ -125,6 +139,13 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
         QApplication.instance().setStyleSheet(utils.StyleReader.readQssFromFile(skin))
 
     def closeEvent(self, event):
+        database = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        database.setDatabaseName('data.db')
+        database.close()
+        self._client.stop()
+        asyncio.get_event_loop().stop()
+        asyncio.get_event_loop().close()
+        QApplication.instance().closingDown()
         os._exit(0)
         # """
             # 对MainWindow的函数closeEvent进行重构
@@ -154,3 +175,5 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
         self.move(self.pos() + movePos)
         return QMainWindow().mouseMoveEvent(event)
 
+    def setClient(self,client):
+        self._client = client

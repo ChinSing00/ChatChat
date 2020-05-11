@@ -1,7 +1,8 @@
-from PyQt5.QtCore import QSize
-from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtGui import QPixmap, QImage, QPainter, QPainterPath
 from PyQt5.QtWidgets import QWidget, QTreeWidgetItem
 
+import utils
 from app import cache
 from ui.ui_item import Ui_Form
 from ui import ui_item
@@ -17,8 +18,11 @@ class Child_Item(QWidget, Ui_Form):
         userhead = user['avatar_path']
         name = (user['nickname'] if 'nickname' in user and user['nickname'] else user['jid'])
         usericon = QPixmap.fromImage(QImage(userhead)) if userhead else QPixmap(":src\images\CustomerService.png")
+        # usericon = QImage(userhead) if userhead else QImage(":src\images\CustomerService.png")
+        # pic = utils.render_avatar_image(usericon,1)
+        temp = utils.PixmapToRound(self.userLabel,usericon)
         self.userLabel.setScaledContents(True)
-        self.userLabel.setPixmap(usericon)
+        self.userLabel.setPixmap(temp)
         self.nameLabel.setText( name)
         self.timeLabel.setText( time if time else '')
 

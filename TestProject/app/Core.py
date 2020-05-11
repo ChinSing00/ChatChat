@@ -28,9 +28,13 @@ class core(QObject):
         #接收好友、群组信息
         handerller._Sign_P2P.connect(p2p.on_chatwith)
         handerller._Sign_Muc.connect(muc.on_chatwith)
+        p2p._Sign_Close_Conv.connect(handerller.on_ConvOrRoom_close)
+        muc._Sign_Close_Conv.connect(handerller.on_ConvOrRoom_close)
+
         #发送好友、群组信息
         flist._chat2Friend_signal.connect(handerller.on_chatwith_friend)
         flist._chat2Room_signal.connect(handerller.on_chatwith_room)
+        handerller._Notifiytion_Mian.connect(flist.mWin.loadHistoryChat)
         async with self.client.connected() as stream:
             Log.info("模块加载", "正在加载...")
             futures.append(asyncio.ensure_future(handerller.setup(self)))
@@ -53,8 +57,10 @@ class core(QObject):
             self.client.on_stream_established.connect(self.on_login_success)#在链接服务器时操作
             self.client.on_stream_suspended.connect(self.on_internet_disconnect)#服务器链接中断时操作
             self.client.on_stream_destroyed.connect(self.on_internet_disconnect)#服务器链接失败时操作
-        except Exception:
+        except ConnectionRefusedError:
             self._sign_login.emit(3)
+            return
+        except Exception:
             return
 
     def on_failure(self,err):
@@ -70,5 +76,5 @@ class core(QObject):
 
     def on_internet_disconnect(self,reason):
         Log.info("网络错误", reason)
-        QtWidgets.QMessageBox.question(self, '网络连接错误', '请重新登陆！')
+        QtWidgets.QMessageBox.question(QtWidgets.QWidget(), '网络连接错误', '请重新登陆！')
 

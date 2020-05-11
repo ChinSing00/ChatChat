@@ -5,8 +5,8 @@ import time
 
 import aioxmpp
 from PyQt5 import QtSql
-from PyQt5.QtCore import Qt, QSize, QRegExp
-from PyQt5.QtGui import QPixmap, QImage, QRegExpValidator
+from PyQt5.QtCore import Qt, QSize, QRegExp, QRectF
+from PyQt5.QtGui import QPixmap, QImage, QRegExpValidator, QPicture, QPainter, QPainterPath, QPen, QColor, QBitmap
 from PyQt5.QtWidgets import  QLineEdit
 
 import app
@@ -97,6 +97,50 @@ class MyValiator():
         validator.setRegExp(reg)
         valid_to.setValidator(validator)
 
+def render_avatar_image(image: QImage, size: float):
+    if image.isNull():
+        return None
+
+    aspect_ratio = image.width() / image.height()
+    if aspect_ratio > 1:
+        width = size
+        height = size / aspect_ratio
+    else:
+        width = size * aspect_ratio
+        height = size
+
+    x0 = (size - width) / 2
+    y0 = (size - height) / 2
+
+    path = QPainterPath()
+    path.addEllipse(QRectF(x0, y0, width, height))
+    picture = QPicture()
+    painter = QPainter(picture)
+    painter.setRenderHint(QPainter.Antialiasing,True)
+    pen = QPen(Qt.black, 5)
+    pen.setStyle(Qt.SolidLine)
+    painter.setPen(pen)
+    painter.setClipPath(path)
+    painter.drawImage(
+        QRectF(x0, y0, width, height),
+        image,
+    )
+    painter.end()
+    return picture
+def PixmapToRound(label, icon):
+    x0 = label.width()
+    y0 = label.height()
+    temp = QPixmap(x0,y0)
+    temp.fill(Qt.transparent)
+    painter = QPainter(temp)
+    painter.setRenderHint(QPainter.Antialiasing, True)
+    painter.setRenderHint(QPainter.SmoothPixmapTransform, True)
+    path = QPainterPath()
+    path.addEllipse(0, 0, x0,y0);
+    painter.setClipPath(path);
+    painter.drawPixmap(0, 0, x0, y0, icon)
+    painter.end()
+    return temp
 
 
 if __name__ == '__main__':

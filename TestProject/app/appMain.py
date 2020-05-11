@@ -2,7 +2,8 @@
 import asyncio
 import os
 import sys
-
+import qdarkgraystyle
+from PyQt5 import QtGui, QtCore
 from PyQt5.Qt import QApplication
 from app.Core import core
 from app.view.EDlogin import LoginDialog
@@ -29,6 +30,6 @@ if __name__ == '__main__':
             loginWin = LoginDialog()
             coreNLogin_Conn(loginWin,core)
             loop.run_forever()
+            sys.exit(app.exec_())
         except Exception:
             Log.info("初始化出错","appMian")
-    sys.exit(app.exec_())
