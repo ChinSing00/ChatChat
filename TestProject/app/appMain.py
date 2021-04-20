@@ -2,11 +2,12 @@
 import asyncio
 import os
 import sys
-import qdarkgraystyle
+# import qdarkgraystyle
 from PyQt5 import QtGui, QtCore
 from PyQt5.Qt import QApplication
 from app.Core import core
 from app.view.EDlogin import LoginDialog
+
 import quamash
 
 from utils import StyleReader, Log

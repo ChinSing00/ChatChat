@@ -29,6 +29,7 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
         self.iniWin()
 
     def iniWin(self):
+        self.posMouseOrigin = QCursor().pos();
         self.origan_skin = True
         self.initArrow()
         self.friends_data = {}
@@ -54,8 +55,9 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
         self.add_btn.clicked.connect(self.showAddWin)
 
     def showAddWin(self):
-        win  = AddFirendWin()
-        win.open()
+        win = AddFirendWin(core=self.core,parent=self)
+        win.setWindowFlag(QtCore.Qt.FramelessWindowHint)
+        win.show()
 
     #双击好友项打开聊天窗口
     def onTreeListClicked(self,index):
@@ -86,7 +88,7 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
 
     #加载好友，头像等数据
     def loadData(self,item):
-        Log.info("加载好友数据列：",item)
+        # Log.info("加载好友数据列：",item)
         if not item['groups']:
             item['groups'] = ['未命名分组']
         group = item['groups'][0]
@@ -140,7 +142,7 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
     def changeSkin(self):
         from PyQt5.Qt import QApplication
         if self.origan_skin:
-            skin = "skin2.qss"
+            skin = "skin3.qss"
             self.origan_skin = False
         else:
             skin = "skin.qss"
@@ -151,7 +153,7 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
         database = QtSql.QSqlDatabase.addDatabase('QSQLITE')
         database.setDatabaseName('data.db')
         database.close()
-        self._client.stop()
+        self.core.client.stop()
         asyncio.get_event_loop().stop()
         asyncio.get_event_loop().close()
         QApplication.instance().closingDown()
@@ -181,5 +183,5 @@ class EDMianWin(QtWidgets.QMainWindow,main.Ui_MainWindow,OpenAnimation):
         self.move(self.pos() + posAfter)
         self.posMouseOrigin = posNow
 
-    def setClient(self,client):
-        self._client = client
+    def setCore(self,core):
+        self.core = core

@@ -23,6 +23,7 @@ class ChatWin(QtWidgets.QWidget,chatroom.Ui_chat_win):
         self.initWin()
 
     def initWin(self):
+        self.posMouseOrigin = QCursor().pos();
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.from_jid.setText(str(self.jid))
         self.connectToListener()
@@ -44,7 +45,6 @@ class ChatWin(QtWidgets.QWidget,chatroom.Ui_chat_win):
             self.right.addWidget(widget)
 
     def btnListener(self,sender):
-
         btnName = sender.objectName()
         data = {'JID':self.jid,'action':btnName}
         user_icon = "D:\CodeSave\py\ChatChat\TestProject\src\images\CustomerService.png"

@@ -52,6 +52,9 @@ class MucChat(QObject):
         return win
 
     def on_message(self,room,message, member, source,**kwargs):
+        if member is not None:
+            if member == room.me:
+                return
         jid = str(room.jid)
         reg = '{}/'.format(jid)
         member_jid = member.conversation_jid

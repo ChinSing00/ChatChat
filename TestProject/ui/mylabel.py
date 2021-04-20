@@ -10,7 +10,6 @@ class MyLabel(QLabel):
 
     def __init__(self,parent):
         super(MyLabel,self).__init__(parent)
-        print('666666666666')
         self.Click.connect(self.openRegWin)
 
     #用户注册Label点击处理
@@ -19,7 +18,6 @@ class MyLabel(QLabel):
             self.Click.emit()
 
     def openRegWin(self):
-        print("99999")
         if self.is_show:
             self.is_show = False
             reg = EDRegister()

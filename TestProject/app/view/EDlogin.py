@@ -18,6 +18,7 @@ class LoginDialog(QtWidgets.QDialog,login.Ui_loginWin,OpenAnimation):
         self.initDatabase()
 
     def initWin(self):
+        self.posMouseOrigin = QCursor().pos();
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.from_jid.setText('登录')
         self.setDuration(1000)#设置淡入淡出

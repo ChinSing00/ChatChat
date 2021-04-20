@@ -20,6 +20,7 @@ class EDRegister(QtWidgets.QDialog,register.Ui_register_win,OpenAnimation):
         self.initWin()
 
     def initWin(self):
+        self.posMouseOrigin = QCursor().pos();
         self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         self.from_jid.setText("注册新用户")
         #设置校验器，进行非法字符校验

@@ -37,13 +37,16 @@ class core(QObject):
         flist._chat2Room_signal.connect(handerller.on_chatwith_room)
         handerller._Notifiytion_Mian.connect(flist.mWin.loadHistoryChat)
         async with self.client.connected() as stream:
-            Log.info("模块加载", "正在加载...")
-            futures.append(asyncio.ensure_future(handerller.setup(self)))
-            futures.append(asyncio.ensure_future(flist.setup(self)))
-            futures.append(asyncio.ensure_future(p2p.setup(self)))
-            futures.append(asyncio.ensure_future(muc.setup(self)))
-            await asyncio.gather(*futures)#并发运行序列中的可等待对象
-            Log.info("模块加载", "正在加载完成")
+            try:
+                Log.info("模块加载", "正在加载...")
+                futures.append(asyncio.ensure_future(handerller.setup(self)))
+                futures.append(asyncio.ensure_future(flist.setup(self)))
+                futures.append(asyncio.ensure_future(p2p.setup(self)))
+                futures.append(asyncio.ensure_future(muc.setup(self)))
+                await asyncio.gather(*futures)#并发运行序列中的可等待对象
+                Log.info("模块加载", "正在加载完成")
+            except Exception:
+                return
 
     def start(self, user):
         Log.info('开始登陆', user)

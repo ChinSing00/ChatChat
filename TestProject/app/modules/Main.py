@@ -35,7 +35,7 @@ class FriendsList(QObject):
     async def setup(self,core):
         self.core = core
         self._client = core.client
-        self.mWin.setClient(self._client)
+        self.mWin.setCore(core)
         self.mWin.user_nane.setText(core.jid.localpart)
         self.mWin._chat2Friend_signal.connect(self.chat2Friend)
         self.mWin._chat2Room_signal.connect(self.chat2Room)

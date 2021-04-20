@@ -58,7 +58,7 @@
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,80">
+   <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,80">
     <property name="spacing">
      <number>0</number>
     </property>
@@ -80,7 +80,7 @@
        <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>2</number>
+       <number>0</number>
       </property>
       <item>
        <spacer name="horizontalSpacer">
@@ -235,14 +235,15 @@
      </layout>
     </item>
     <item>
-     <widget class="QGroupBox" name="user_info_gb">
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QWidget" name="user_info_gb" native="true">
       <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="title">
-       <string/>
-      </property>
-      <property name="flat">
        <bool>true</bool>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,8">
@@ -253,13 +254,13 @@
         <number>8</number>
        </property>
        <property name="topMargin">
-        <number>2</number>
+        <number>8</number>
        </property>
        <property name="rightMargin">
         <number>0</number>
        </property>
        <property name="bottomMargin">
-        <number>2</number>
+        <number>8</number>
        </property>
        <item>
         <widget class="QLabel" name="avatar">
@@ -282,38 +283,19 @@
        </item>
        <item>
         <layout class="QFormLayout" name="formLayout">
+         <property name="horizontalSpacing">
+          <number>0</number>
+         </property>
          <property name="verticalSpacing">
-          <number>6</number>
+          <number>5</number>
          </property>
          <property name="leftMargin">
-          <number>6</number>
+          <number>0</number>
          </property>
          <property name="topMargin">
-          <number>6</number>
+          <number>0</number>
          </property>
-         <item row="1" column="1">
-          <widget class="QLabel" name="user_nane">
-           <property name="font">
-            <font>
-             <family>黑体</family>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Sunken</enum>
-           </property>
-           <property name="text">
-            <string>userName</string>
-           </property>
-           <property name="textFormat">
-            <enum>Qt::AutoText</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
+         <item row="0" column="0">
           <widget class="QLabel" name="label">
            <property name="font">
             <font>
@@ -335,20 +317,42 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>个性签名</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="user_nane">
+           <property name="font">
+            <font>
+             <family>黑体</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+           <property name="text">
+            <string>userName</string>
+           </property>
+           <property name="textFormat">
+            <enum>Qt::AutoText</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
           <widget class="QLabel" name="sign">
            <property name="frameShape">
             <enum>QFrame::NoFrame</enum>
            </property>
            <property name="text">
             <string>暂无</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>个性签名</string>
            </property>
           </widget>
          </item>
@@ -378,7 +382,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
